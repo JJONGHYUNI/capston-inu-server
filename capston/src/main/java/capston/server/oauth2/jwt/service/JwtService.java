@@ -3,6 +3,7 @@ package capston.server.oauth2.jwt.service;
 
 import capston.server.exception.Code;
 import capston.server.exception.CustomException;
+import capston.server.member.domain.Member;
 import capston.server.member.domain.Role;
 import capston.server.member.repository.MemberRepository;
 import capston.server.oauth2.jwt.JwtResultType;
@@ -100,24 +101,14 @@ public class JwtService {
     }
 
 
-    //access+refresh json 형태로 보내기
-    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) throws IOException {
-        log.info("sendAccessAndRefreshToken");
-        Token token = new Token(accessToken,refreshToken);
-        String result = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(token);
-        log.info("{}",result);
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        response.getWriter().write(result);
+    //access+refresh 받기
+    public Token sendAccessAndRefreshToken(Member member) {
+        String accessToken= createAccessToken(member.getEmail(),member.getRole());
+        String refreshToken= createRefreshToken(member.getRefreshToken(),member.getRole());
+        updateRefreshToken(member.getEmail(),refreshToken);
+        return new Token(accessToken,refreshToken);
     }
 
-    /**
-     * 헤더에서 RefreshToken 추출
-     */
-    public Optional<String> extractRefreshToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(refreshHeader));
-    }
 
     /**
      * 헤더에서 AccessToken 추출
