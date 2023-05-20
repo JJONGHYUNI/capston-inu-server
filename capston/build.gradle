@@ -47,5 +47,9 @@ test.onlyIf {
 }
 
 jar {
-	enabled = false
+	manifest {
+		attributes(
+				'Main-Class': 'cpaston.server.ServerApplication'
+		)
+	}
 }
