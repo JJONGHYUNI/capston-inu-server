@@ -5,8 +5,10 @@ spring:
         - local
         - jwt
         - oauth2
+        - s3
       prod:
         - aws
         - jwt
         - oauth2
-    active: local
+        - s3
+    active: prod

@@ -38,5 +38,9 @@ out/
 application-jwt.yml
 application-local.yml
 application-oauth2.yml
+<<<<<<< HEAD
 application-aws.yml
 application-s3.yml
+=======
+application-develop.yml
+>>>>>>> c9c36faad060d353b77cde34be8f7b63f08f03e8
