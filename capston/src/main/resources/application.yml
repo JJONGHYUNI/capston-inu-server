@@ -6,6 +6,7 @@ spring:
         - jwt
         - oauth2
       prod:
-        - h2
-        - app
+        - aws
+        - jwt
+        - oauth2
     active: local

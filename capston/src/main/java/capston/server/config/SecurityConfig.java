@@ -2,10 +2,8 @@ package capston.server.config;
 
 import capston.server.exception.CustomAccessDeniedHandler;
 import capston.server.exception.CustomAuthenticationEntryPoint;
-import capston.server.member.repository.MemberRepository;
 import capston.server.oauth2.jwt.filter.JwtAuthenticationFilter;
 import capston.server.oauth2.jwt.service.JwtService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtService jwtService;
 
 

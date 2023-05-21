@@ -21,7 +21,7 @@ public class Plan {
     private Long id;
 
     private LocalDateTime start;
-    
+
     private LocalDateTime end;
 
     private String location;
