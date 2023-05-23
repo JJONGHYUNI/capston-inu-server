@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.function.Supplier;
+
 @ToString
 @NoArgsConstructor
 @Getter

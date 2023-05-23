@@ -62,7 +62,22 @@ public class MemberService {
     public MemberLoginResponseDto loginMember(String authToken, ProviderType provider){
         OAuth2UserDto profile = providerService.getProfile(authToken,provider);
         Optional<Member> findMember = memberRepository.findByEmailAndProviderType(profile.getEmail(),provider);
-        findMember.ifPresent(this::accept);
+        Token token = new Token();
+        if (findMember.isPresent()){
+            token = accept(findMember.get());
+            return new MemberLoginResponseDto(token,true);
+        }else{
+            token = firstLogin(profile,provider);
+            return new MemberLoginResponseDto(token,false);
+        }
+    }
+
+    private Token accept(Member member) {
+        Token token = jwtService.sendAccessAndRefreshToken(member);
+        return token;
+    }
+
+    private Token firstLogin(OAuth2UserDto profile,ProviderType provider){
         Member member = Member.builder()
                 .email(profile.getEmail())
                 .providerType(provider)
@@ -70,12 +85,6 @@ public class MemberService {
                 .build();
         member = save(member);
         Token token = jwtService.sendAccessAndRefreshToken(member);
-        return new MemberLoginResponseDto(token,false);
-    }
-
-    private MemberLoginResponseDto accept(Member member) {
-        Token token = jwtService.sendAccessAndRefreshToken(member);
-        MemberLoginResponseDto memberLoginResponseDto = new MemberLoginResponseDto(token, true);
-        return memberLoginResponseDto;
+        return token;
     }
 }

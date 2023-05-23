@@ -104,7 +104,7 @@ public class JwtService {
     //access+refresh 받기
     public Token sendAccessAndRefreshToken(Member member) {
         String accessToken= createAccessToken(member.getEmail(),member.getRole());
-        String refreshToken= createRefreshToken(member.getRefreshToken(),member.getRole());
+        String refreshToken= createRefreshToken(member.getEmail(),member.getRole());
         updateRefreshToken(member.getEmail(),refreshToken);
         return new Token(accessToken,refreshToken);
     }
