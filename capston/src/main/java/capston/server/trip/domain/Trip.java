@@ -1,8 +1,11 @@
 package capston.server.trip.domain;
 
+import capston.server.photo.domain.Photo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,4 +21,7 @@ public class Trip {
     private Long id;
     private String title;
     private String location;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Photo> photos= new ArrayList<>();
 }
