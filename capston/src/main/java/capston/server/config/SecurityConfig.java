@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/webjar/**",
                 "/v3/api-docs",
-                "/swagger-ui/**"
+                "/swagger-ui/**",
+                "/trip/**"
         };
         web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())

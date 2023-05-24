@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ import static capston.server.exception.Code.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PhotoService {
     private final AmazonS3Client amazonS3Client;
     private final PhotoRepository photoRepository;
@@ -84,8 +86,11 @@ public class PhotoService {
     @Transactional
     public List<Photo> savePhoto(Trip trip, List<MultipartFile> files){
         String folderName = trip.getTitle() + "/" + trip.getId();
+        log.info("{}",folderName);
         List<Photo> savedPhotos = new ArrayList<>();
+        log.info("1");
         for (MultipartFile file : files){
+            validateFileType(file);
             String fileName = UUID.randomUUID() + file.getContentType().replace("image/",".");
             String url = insertFile(bucketName,folderName,fileName,file);
             Photo savedPhoto= null;
@@ -97,6 +102,7 @@ public class PhotoService {
             }catch (RuntimeException e){
                 throw new CustomException(e,SERVER_ERROR);
             }
+            log.info("{}",savedPhoto);
             save(savedPhoto);
             savedPhotos.add(savedPhoto);
         }
