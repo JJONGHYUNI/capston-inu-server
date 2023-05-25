@@ -3,8 +3,10 @@ package capston.server.trip.dto;
 import capston.server.trip.domain.Trip;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +15,18 @@ import java.util.List;
 public class TripSaveRequestDto {
     private String title;
     private String location;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime departureDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime arrivalDate;
     private List<MultipartFile> files = new ArrayList<>();
 
     public Trip toEntity(){
         return Trip.builder()
                 .title(title)
                 .location(location)
+                .departureDate(departureDate)
+                .arrivalDate(arrivalDate)
                 .build();
     }
 }
