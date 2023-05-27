@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Getter
@@ -23,8 +24,16 @@ public class Trip {
     private String title;
     private String location;
 
+    private int code;
+
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
+
+    public int updateCode(){
+        int code = new Random().nextInt(9000)+1000;
+        this.code=code;
+        return code;
+    }
 
     @OneToMany(mappedBy = "trip")
     private List<Photo> photos= new ArrayList<>();

@@ -41,6 +41,11 @@ public class MemberService {
             throw new CustomException(null, SERVER_ERROR);
         }
     }
+    @Transactional
+    public Member findMember(String token){
+        String email = jwtService.getEmail(token);
+        return memberRepository.findByEmail(email).orElseThrow(()->new CustomException(null,MEMBER_NOT_FOUND));
+    }
 
     /**
      * 자동 로그인

@@ -1,6 +1,7 @@
 package capston.server.trip.controller;
 
 import capston.server.common.DefaultResponseDto;
+import capston.server.trip.dto.TripCodeResponseDto;
 import capston.server.trip.dto.TripSaveRequestDto;
 import capston.server.trip.service.TripService;
 import io.swagger.annotations.Api;
@@ -21,8 +22,17 @@ public class TripController {
 
     @ApiOperation(value = "여행 저장")
     @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto){
-        tripService.saveTrip(dto);
+    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto,@RequestHeader("X-AUTH_TOKEN") String token){
+        tripService.saveTrip(dto,token);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
+    }
+
+    @ApiOperation(value = "공유 코드 발급")
+    @PostMapping("/{tripId}/code")
+    public ResponseEntity<TripCodeResponseDto> issueCode(@PathVariable Long tripId){
+        TripCodeResponseDto dto = new TripCodeResponseDto();
+        dto.setCode(tripService.issueCode(tripId));
+        return ResponseEntity.ok(dto);
+
     }
 }

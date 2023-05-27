@@ -1,6 +1,8 @@
 package capston.server.oauth2.service;
 
 
+import capston.server.exception.Code;
+import capston.server.exception.CustomException;
 import capston.server.member.domain.ProviderType;
 import capston.server.oauth2.userinfo.GoogleOAuth2UserInfo;
 import capston.server.oauth2.userinfo.OAuth2UserDto;
@@ -28,19 +30,25 @@ public class ProviderService {
 
     public OAuth2UserDto getProfile(String authToken, ProviderType provider){
         HttpHeaders httpHeaders = new HttpHeaders();
+        log.info("1");
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        log.info("1");
         httpHeaders.add("Content-type","application/x-www-form-urlencoded;charset=utf-8");
+        log.info("1");
         httpHeaders.set("Authorization", "Bearer " + authToken);
+        log.info("1");
         String url = urlMapping(provider);
+        log.info("1");
         HttpEntity<MultiValueMap<String,String>> request = new HttpEntity<>(null,httpHeaders);
-        ResponseEntity<String> response = restTemplate.postForEntity(url,request,String.class);
+        log.info("1");
 
         try{
+            ResponseEntity<String> response = restTemplate.postForEntity(url,request,String.class);
             if(response.getStatusCode()== HttpStatus.OK){
                 return extractProfile(response,provider);
             }
         }catch(Exception e){
-            throw new RuntimeException();
+            throw new CustomException(e, Code.WRONG_TYPE_TOKEN);
         }
         throw new RuntimeException();
     }

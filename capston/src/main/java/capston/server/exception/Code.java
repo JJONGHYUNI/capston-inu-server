@@ -38,6 +38,7 @@ public enum Code {
     PERFUME_NOT_FOUND(NOT_FOUND, "등록된 향수가 없습니다."),
     COMMENT_NOT_FOUND(NOT_FOUND, "등록된 댓글이 없습니다."),
     HEART_NOT_FOUND(NOT_FOUND, "등록된 하트가 없습니다."),
+    TRIP_NOT_FOUND(NOT_FOUND, "등록된 여행이 없습니다."),
 
     /**
      * 409 CONFLICT
