@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Table(name = "TRIP")
+@Table(name = "TRIP_MEMBER")
 @AllArgsConstructor
 public class TripMember {
     @Id

@@ -15,8 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static capston.server.exception.Code.SERVER_ERROR;
-import static capston.server.exception.Code.TRIP_NOT_FOUND;
+import static capston.server.exception.Code.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -50,6 +49,9 @@ public class TripService {
 
     @Transactional
     public TripMember saveTripMember(Trip trip , Member member){
+        if (tripMemberRepository.findByTripAndMember(trip,member).isPresent()){
+            return tripMemberRepository.findByTripAndMember(trip,member).get();
+        }
         TripMember tripMember = TripMember.builder()
                 .trip(trip)
                 .member(member)
@@ -68,5 +70,16 @@ public class TripService {
     public int issueCode(Long id){
         Trip trip = tripRepository.findById(id).orElseThrow(()->new CustomException(null,TRIP_NOT_FOUND));
         return trip.updateCode();
+    }
+
+    /**
+     * 공유 코드로 여행 참가
+     */
+    @Transactional
+    public Trip joinTrip(int code,String token){
+        Member member = memberService.findMember(token);
+        Trip trip = tripRepository.findByCode(code).orElseThrow(()->new CustomException(null,TRIP_CODE_NOT_FOUND));
+        saveTripMember(trip,member);
+        return trip;
     }
 }

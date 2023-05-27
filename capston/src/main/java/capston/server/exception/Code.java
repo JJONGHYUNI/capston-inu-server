@@ -39,6 +39,7 @@ public enum Code {
     COMMENT_NOT_FOUND(NOT_FOUND, "등록된 댓글이 없습니다."),
     HEART_NOT_FOUND(NOT_FOUND, "등록된 하트가 없습니다."),
     TRIP_NOT_FOUND(NOT_FOUND, "등록된 여행이 없습니다."),
+    TRIP_CODE_NOT_FOUND(NOT_FOUND,"코드에 일치하는 여행을 찾을 수 없습니다."),
 
     /**
      * 409 CONFLICT

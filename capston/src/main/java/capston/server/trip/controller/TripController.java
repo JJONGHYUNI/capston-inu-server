@@ -1,7 +1,9 @@
 package capston.server.trip.controller;
 
 import capston.server.common.DefaultResponseDto;
+import capston.server.trip.domain.Trip;
 import capston.server.trip.dto.TripCodeResponseDto;
+import capston.server.trip.dto.TripDefaultResponseDto;
 import capston.server.trip.dto.TripSaveRequestDto;
 import capston.server.trip.service.TripService;
 import io.swagger.annotations.Api;
@@ -33,6 +35,12 @@ public class TripController {
         TripCodeResponseDto dto = new TripCodeResponseDto();
         dto.setCode(tripService.issueCode(tripId));
         return ResponseEntity.ok(dto);
+    }
+    @ApiOperation(value = "공유 코드로 여행 참가")
+    @PostMapping("/code")
+    public ResponseEntity<TripDefaultResponseDto> joinTrip(@RequestParam int code,@RequestHeader("X-AUTH_TOKEN") String token){
+        Trip trip =tripService.joinTrip(code,token);
+        return ResponseEntity.ok(new TripDefaultResponseDto(trip));
 
     }
 }
