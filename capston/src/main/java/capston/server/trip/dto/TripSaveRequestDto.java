@@ -20,6 +20,7 @@ public class TripSaveRequestDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime arrivalDate;
     private List<MultipartFile> files = new ArrayList<>();
+    private int mainPhoto;
 
     public Trip toEntity(){
         return Trip.builder()

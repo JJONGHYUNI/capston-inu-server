@@ -22,4 +22,9 @@ public class Photo extends BaseEntity {
     private Trip trip;
     private String photoUrl;
 
+    private boolean isMainPhoto;
+
+    public void updateMain(){
+        this.isMainPhoto=true;
+    }
 }

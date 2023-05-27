@@ -42,7 +42,7 @@ public class TripService {
         Member member = memberService.findMember(token);
         saveTripMember(trip,member);
         if(dto.getFiles().size()!=0){
-            photoService.savePhoto(trip,dto.getFiles());
+            photoService.savePhoto(trip,dto.getFiles(),dto.getMainPhoto());
         }
         return trip;
     }

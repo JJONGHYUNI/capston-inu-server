@@ -84,12 +84,11 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Photo> savePhoto(Trip trip, List<MultipartFile> files){
+    public List<Photo> savePhoto(Trip trip, List<MultipartFile> files,int idx){
         String folderName = trip.getTitle() + "/" + trip.getId();
-        log.info("{}",folderName);
         List<Photo> savedPhotos = new ArrayList<>();
-        log.info("1");
-        for (MultipartFile file : files){
+        for (int i =0; i<files.size();i++){
+            MultipartFile file =files.get(i);
             validateFileType(file);
             String fileName = UUID.randomUUID() + file.getContentType().replace("image/",".");
             String url = insertFile(bucketName,folderName,fileName,file);
@@ -102,7 +101,9 @@ public class PhotoService {
             }catch (RuntimeException e){
                 throw new CustomException(e,SERVER_ERROR);
             }
-            log.info("{}",savedPhoto);
+            if (idx-1==i){
+                savedPhoto.updateMain();
+            }
             save(savedPhoto);
             savedPhotos.add(savedPhoto);
         }
