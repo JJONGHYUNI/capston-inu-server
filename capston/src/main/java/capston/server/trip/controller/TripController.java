@@ -24,7 +24,7 @@ public class TripController {
 
     @ApiOperation(value = "여행 저장")
     @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto,@RequestHeader("X-AUTH_TOKEN") String token){
+    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto,@RequestHeader("X-AUTH-TOKEN") String token){
         tripService.saveTrip(dto,token);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
     }
@@ -38,7 +38,7 @@ public class TripController {
     }
     @ApiOperation(value = "공유 코드로 여행 참가")
     @PostMapping("/code")
-    public ResponseEntity<TripDefaultResponseDto> joinTrip(@RequestParam int code,@RequestHeader("X-AUTH_TOKEN") String token){
+    public ResponseEntity<TripDefaultResponseDto> joinTrip(@RequestParam int code,@RequestHeader("X-AUTH-TOKEN") String token){
         Trip trip =tripService.joinTrip(code,token);
         return ResponseEntity.ok(new TripDefaultResponseDto(trip));
 
