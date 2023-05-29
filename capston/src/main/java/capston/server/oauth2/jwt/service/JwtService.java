@@ -97,6 +97,7 @@ public class JwtService {
     }
 
     public String getEmail(String token){
+        isTokenValid(token);
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import static capston.server.exception.Code.WRONG_TYPE_TOKEN;
+
 
 @Slf4j
 @Service
@@ -42,9 +44,9 @@ public class ProviderService {
                 return extractProfile(response,provider);
             }
         }catch(Exception e){
-            throw new CustomException(e, Code.WRONG_TYPE_TOKEN);
+            throw new CustomException(e, WRONG_TYPE_TOKEN);
         }
-        throw new RuntimeException();
+        throw new CustomException(null, WRONG_TYPE_TOKEN);
     }
 
     private String urlMapping(ProviderType checkProvider){
