@@ -32,6 +32,7 @@ public enum Code {
      * 404 NOT_FOUND
      */
     UNKNOWN_ERROR(NOT_FOUND, "토큰이 존재하지 않습니다."),
+    TOKEN_NOT_FOUND(NOT_FOUND, "토큰이 존재하지 않습니다."),
     FILE_NOT_FOUND(NOT_FOUND, "등록된 파일이 없습니다."),
     MEMBER_NOT_FOUND(NOT_FOUND, "등록된 멤버가 없습니다."),
     BRAND_NOT_FOUND(NOT_FOUND, "등록된 브랜드가 없습니다."),

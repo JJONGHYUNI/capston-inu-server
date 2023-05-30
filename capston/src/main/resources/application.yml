@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    group:
+      local:
+        - local
+        - jwt
+        - oauth2
+        - s3
+      prod:
+        - aws
+        - jwt
+        - oauth2
+        - s3
+    active: local
