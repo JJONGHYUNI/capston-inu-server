@@ -7,6 +7,7 @@ import capston.server.member.service.MemberService;
 import capston.server.photo.service.PhotoService;
 import capston.server.trip.domain.Trip;
 import capston.server.trip.domain.TripMember;
+import capston.server.trip.dto.TripNewSaveRequestDto;
 import capston.server.trip.dto.TripSaveRequestDto;
 import capston.server.trip.repository.TripMemberRepository;
 import capston.server.trip.repository.TripRepository;
@@ -44,6 +45,13 @@ public class TripService {
         if(dto.getFiles().size()!=0){
             photoService.savePhoto(trip,dto.getFiles(),dto.getMainPhoto());
         }
+        return trip;
+    }
+    @Transactional
+    public Trip newSaveTrip(TripNewSaveRequestDto dto,String token){
+        Trip trip = save(dto.toEntity());
+        Member member = memberService.findMember(token);
+        saveTripMember(trip,member);
         return trip;
     }
 
