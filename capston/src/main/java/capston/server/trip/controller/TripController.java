@@ -15,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Api(tags = "여행")
 @Validated
@@ -26,7 +29,7 @@ public class TripController {
 
     @Operation(summary = "여행 종료시 사진과 함께저장",description = "여행 종료시 사진과 함께 업로드 요청")
     @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto,@RequestHeader("X-AUTH-TOKEN") String token){
+    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
         tripService.saveTrip(dto,token);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
     }

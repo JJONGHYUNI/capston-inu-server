@@ -4,6 +4,7 @@ import capston.server.photo.domain.Photo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,11 @@ public class Trip {
 
     private int code;
 
-    private LocalDateTime departureDate;
-    private LocalDateTime arrivalDate;
+    private LocalDate departureDate;
+    private LocalDate arrivalDate;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Photo> photos= new ArrayList<>();
 
     public int updateCode(){
         int code = new Random().nextInt(9000)+1000;
@@ -35,6 +39,10 @@ public class Trip {
         return code;
     }
 
-    @OneToMany(mappedBy = "trip")
-    private List<Photo> photos= new ArrayList<>();
+    public void updateTitle(String title){
+        this.title=title;
+    }
+    public void updateLocation(String Location){
+        this.location=location;
+    }
 }

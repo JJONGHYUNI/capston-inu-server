@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static capston.server.exception.Code.*;
 
@@ -38,13 +41,25 @@ public class TripService {
     }
 
     @Transactional
-    public Trip saveTrip(TripSaveRequestDto dto,String token){
-        Trip trip = save(dto.toEntity());
+    public Trip saveTrip(TripSaveRequestDto dto, String token){
+        log.info("1");
+        Trip trip = tripRepository.findById(dto.getTripId()).orElseThrow(()-> new CustomException(null,TRIP_NOT_FOUND));
+        log.info("2");
         Member member = memberService.findMember(token);
-        saveTripMember(trip,member);
+        log.info("3");
+        try{
+            log.info("4");
+            trip.updateTitle(dto.getTitle());
+            log.info("5");
+            trip.updateLocation(dto.getLocation());
+        }catch (RuntimeException e){
+            throw new CustomException(null,SERVER_ERROR);
+        }
+        log.info("6");
         if(dto.getFiles().size()!=0){
             photoService.savePhoto(trip,dto.getFiles(),dto.getMainPhoto());
         }
+        log.info("7");
         return trip;
     }
     @Transactional

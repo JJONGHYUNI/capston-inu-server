@@ -29,11 +29,11 @@ jwt:
   secret: ${JWT_SECRET}
 
   access:
-    expiration: 3600000 # 1??
+    expiration: 3600000 # 1시간
     header: X-AUTH-TOKEN
 
   refresh:
-    expiration: 1209600000 # 2?
+    expiration: 1209600000 # 2주
     header: rememberedToken
 
 cloud:
