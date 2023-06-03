@@ -4,6 +4,7 @@ import capston.server.photo.domain.Photo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +31,13 @@ public class Trip {
     private LocalDate departureDate;
     private LocalDate arrivalDate;
 
+    private int mainPhotoIdx;
+
+    @Column(name = "latitude", precision = 13, scale = 10)
+    private BigDecimal latitude;
+    @Column(name = "longitude", precision = 13, scale = 10)
+    private BigDecimal longitude;
+
     @OneToMany(mappedBy = "trip")
     private List<Photo> photos= new ArrayList<>();
 
@@ -44,5 +52,14 @@ public class Trip {
     }
     public void updateLocation(String Location){
         this.location=location;
+    }
+    public void updateMainPhoto(int idx){this.mainPhotoIdx=idx;}
+
+    public Photo getMainPhoto(){
+        int photoSize = this.getPhotos().size();
+        if(photoSize==0){
+            return null;
+        }
+        return this.getPhotos().get(this.mainPhotoIdx-1);
     }
 }

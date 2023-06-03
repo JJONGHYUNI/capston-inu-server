@@ -84,7 +84,7 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Photo> savePhoto(Trip trip, List<MultipartFile> files,int idx){
+    public List<Photo> savePhoto(Trip trip, List<MultipartFile> files){
         String folderName = trip.getTitle() + "/" + trip.getId();
         List<Photo> savedPhotos = new ArrayList<>();
         for (int i =0; i<files.size();i++){
@@ -100,9 +100,6 @@ public class PhotoService {
                         .build();
             }catch (RuntimeException e){
                 throw new CustomException(e,SERVER_ERROR);
-            }
-            if (idx-1==i){
-                savedPhoto.updateMain();
             }
             save(savedPhoto);
             savedPhotos.add(savedPhoto);

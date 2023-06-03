@@ -42,8 +42,8 @@ public class TripController {
         return ResponseEntity.ok(dto);
     }
     @Operation(summary = "공유 코드로 여행 참가",description = "공유 코드로 여행에 참가")
-    @PostMapping("/code")
-    public ResponseEntity<TripDefaultResponseDto> joinTrip(@RequestParam int code,@RequestHeader("X-AUTH-TOKEN") String token){
+    @PostMapping("/{code}")
+    public ResponseEntity<TripDefaultResponseDto> joinTrip(@PathVariable int code,@RequestHeader("X-AUTH-TOKEN") String token){
         Trip trip =tripService.joinTrip(code,token);
         return ResponseEntity.ok(new TripDefaultResponseDto(trip));
 
@@ -54,5 +54,12 @@ public class TripController {
     public ResponseEntity<DefaultResponseDto> newTrip(@RequestBody TripNewSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
         tripService.newSaveTrip(dto,token);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
+    }
+
+    @Operation(summary = "여행 단건 조회",description = "여행 하나 조회")
+    @GetMapping("/{tripId}")
+    public ResponseEntity<TripDefaultResponseDto> findOneTrip(@PathVariable Long tripId,@RequestHeader("X-AUTH-TOKEN") String token){
+        Trip trip = tripService.findTripById(tripId);
+        return ResponseEntity.ok(new TripDefaultResponseDto(trip));
     }
 }

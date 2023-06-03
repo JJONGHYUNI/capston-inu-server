@@ -39,27 +39,28 @@ public class TripService {
             throw new CustomException(e, SERVER_ERROR);
         }
     }
-
+    @Transactional
+    public Trip findTripById(Long id){
+        try{
+            return tripRepository.findById(id).get();
+        }catch (RuntimeException e){
+            throw new CustomException(e,TRIP_NOT_FOUND);
+        }
+    }
     @Transactional
     public Trip saveTrip(TripSaveRequestDto dto, String token){
-        log.info("1");
         Trip trip = tripRepository.findById(dto.getTripId()).orElseThrow(()-> new CustomException(null,TRIP_NOT_FOUND));
-        log.info("2");
         Member member = memberService.findMember(token);
-        log.info("3");
         try{
-            log.info("4");
             trip.updateTitle(dto.getTitle());
-            log.info("5");
             trip.updateLocation(dto.getLocation());
+            trip.updateMainPhoto(dto.getMainPhoto());
         }catch (RuntimeException e){
             throw new CustomException(null,SERVER_ERROR);
         }
-        log.info("6");
         if(dto.getFiles().size()!=0){
-            photoService.savePhoto(trip,dto.getFiles(),dto.getMainPhoto());
+            photoService.savePhoto(trip,dto.getFiles());
         }
-        log.info("7");
         return trip;
     }
     @Transactional
