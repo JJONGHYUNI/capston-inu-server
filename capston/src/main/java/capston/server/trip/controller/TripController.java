@@ -63,7 +63,7 @@ public class TripController {
         return ResponseEntity.ok(new TripDefaultResponseDto(trip));
     }
 
-    @Operation(summary = "여행 단건 조회",description = "여행 하나 조회")
+    @Operation(summary = "여행 전체 조회",description = "내가 참여한 여행 모두 불러오기")
     @GetMapping("/all")
     public ResponseEntity<List<TripDefaultResponseDto>> findAllTrip(@RequestHeader("X-AUTH-TOKEN") String token){
         List<TripDefaultResponseDto> result = tripService.findAllTrip(token);
