@@ -5,6 +5,7 @@ import capston.server.exception.CustomException;
 import capston.server.exception.ExceptionResponseDto;
 import capston.server.member.domain.ProviderType;
 import capston.server.member.dto.MemberLoginResponseDto;
+import capston.server.member.dto.RememberedLoginRequestDto;
 import capston.server.member.service.MemberService;
 import capston.server.oauth2.AccessToken;
 import capston.server.oauth2.jwt.Token;
@@ -63,12 +64,12 @@ public class LoginController {
                     response = ExceptionResponseDto.class
             )
     })
-    @GetMapping("/login/remembered")
-    public ResponseEntity<TokenResponeDto> rememberedLogin(@RequestHeader("rememberedToken") String rememberedToken){
-        if (!rememberedToken.isEmpty()){
-            Token token = memberService.reIssue(rememberedToken);
-            TokenResponeDto dto = new TokenResponeDto(token);
-            return ResponseEntity.ok(dto);
+    @PostMapping("/remembered")
+    public ResponseEntity<TokenResponeDto> rememberedLogin(@RequestBody RememberedLoginRequestDto dto){
+        if (!dto.getRememberedToken().isEmpty()){
+            Token token = memberService.reIssue(dto.getRememberedToken());
+            TokenResponeDto responeDto = new TokenResponeDto(token);
+            return ResponseEntity.ok(responeDto);
         }
         throw new CustomException(null, TOKEN_NOT_FOUND);
     }
