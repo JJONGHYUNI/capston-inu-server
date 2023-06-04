@@ -7,6 +7,7 @@ import capston.server.member.service.MemberService;
 import capston.server.photo.service.PhotoService;
 import capston.server.trip.domain.Trip;
 import capston.server.trip.domain.TripMember;
+import capston.server.trip.dto.TripDefaultResponseDto;
 import capston.server.trip.dto.TripNewSaveRequestDto;
 import capston.server.trip.dto.TripSaveRequestDto;
 import capston.server.trip.repository.TripMemberRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static capston.server.exception.Code.*;
 
@@ -52,8 +54,6 @@ public class TripService {
         Trip trip = tripRepository.findById(dto.getTripId()).orElseThrow(()-> new CustomException(null,TRIP_NOT_FOUND));
         Member member = memberService.findMember(token);
         try{
-            trip.updateTitle(dto.getTitle());
-            trip.updateLocation(dto.getLocation());
             trip.updateMainPhoto(dto.getMainPhoto());
         }catch (RuntimeException e){
             throw new CustomException(null,SERVER_ERROR);
@@ -105,5 +105,13 @@ public class TripService {
         Trip trip = tripRepository.findByCode(code).orElseThrow(()->new CustomException(null,TRIP_CODE_NOT_FOUND));
         saveTripMember(trip,member);
         return trip;
+    }
+    @Transactional
+    public List<TripDefaultResponseDto> findAllTrip(String token){
+        Member member = memberService.findMember(token);
+        List<TripMember> tripMembers= tripMemberRepository.findByMemberId(member.getId());
+        List<Trip> trips = tripMembers.stream().map(tripMember -> tripMember.getTrip()).collect(Collectors.toList());
+        List<TripDefaultResponseDto> result =trips.stream().map(trip -> new TripDefaultResponseDto(trip)).collect(Collectors.toList());
+        return result;
     }
 }

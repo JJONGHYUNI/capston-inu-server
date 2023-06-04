@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @Schema(description = "여행 일정 처음 요청 dto")
 public class TripNewSaveRequestDto {
+    private String title;
     private String location;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate departureDate;
@@ -26,6 +27,7 @@ public class TripNewSaveRequestDto {
 
     public Trip toEntity(){
         return Trip.builder()
+                .title(title)
                 .location(location)
                 .departureDate(departureDate)
                 .arrivalDate(arrivalDate)

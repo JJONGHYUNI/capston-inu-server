@@ -14,8 +14,6 @@ import java.util.List;
 @ApiModel(value = "Trip 사진과 함께 저장 요청 dto")
 public class TripSaveRequestDto {
     private Long tripId;
-    private String title;
-    private String location;
     private int mainPhoto;
     private List<MultipartFile> files;
 }
