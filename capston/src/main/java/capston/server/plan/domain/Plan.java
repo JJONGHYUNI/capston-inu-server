@@ -1,12 +1,15 @@
 package capston.server.plan.domain;
 
 
+import capston.server.trip.domain.Trip;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -20,12 +23,15 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime start;
+    private int day;
 
-    private LocalDateTime end;
+    private Time startTime;
 
-    private String location;
+    private Time endTime;
+    private String activity;
 
-    private String content;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="trip_id")
+    private Trip trip;
 
 }
