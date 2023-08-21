@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjar/**",
                 "/v3/api-docs",
                 "/swagger-ui/**",
-                "/trip/**"
+                "/trip/**",
+                "/flask/**"
         };
         web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
