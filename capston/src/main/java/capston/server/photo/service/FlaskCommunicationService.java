@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ import java.net.http.HttpResponse;
 @Slf4j
 public class FlaskCommunicationService {
     private final static String url = "http://13.124.231.93:5000/upload";
+    private final PhotoService photoService;
 
     public String commnicateFlask(CommunicationRequsetDto dto) {
         JsonObject json = new JsonObject();
@@ -54,25 +56,36 @@ public class FlaskCommunicationService {
         } catch (IOException e) {
             throw new CustomException(null, Code.SERVER_ERROR);
         }
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> entity = new HttpEntity<>(res,headers);
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                url,
-//                HttpMethod.POST,
-//                entity,
-//                String.class
-//        );
-//        log.info("8");
-//        if(response.getStatusCode().is2xxSuccessful()){
-//            if (response.getBody().isEmpty()){
-//                return "성공";
-//            }
-//            return response.getBody();
-//        }else{
-//            throw new CustomException(null,Code.SERVER_ERROR);
-//        }
-//    }
     }
+    public void communicateRestTemplate(Long tripId){
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        List<String> photoUrls = photoService.findPhotoByTripId(tripId);
+        JsonObject json= new JsonObject();
+        json.addProperty("num",3);
+        json.addProperty("photoNum",photoUrls.size());
+        JsonArray photoList = new JsonArray();
+        for(String photo : photoUrls){
+            photoList.add(photo);
+        }
+        json.add("photoList",photoList);
+        String res = json.toString();
+        HttpEntity<String> requestEntity = new HttpEntity<>(res,headers);
+        log.info("여기까진 성공");
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url,HttpMethod.POST,requestEntity,String.class);
+            log.info("여기까진 성공");
+            HttpStatus status = responseEntity.getStatusCode();
+            log.info("여기까진 성공");
+            String responseBody = responseEntity.getBody();
+            log.info("여기까진 성공");
+
+            log.info("{}",status);
+            log.info("{}",responseBody);
+        }catch (RuntimeException e){
+            throw new CustomException(null,Code.SERVER_ERROR);
+        }
+    }
+
 }

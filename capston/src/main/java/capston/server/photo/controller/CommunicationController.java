@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "Flask 서버 통신")
 @Slf4j
@@ -27,5 +24,11 @@ public class CommunicationController {
     public ResponseEntity<String> communicateFlask(@RequestBody CommunicationRequsetDto dto){
         String res = flaskCommunicationService.commnicateFlask(dto);
         return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/communication/{tripId}")
+    public ResponseEntity<String> communicateRestTemplate(@PathVariable Long tripId){
+        flaskCommunicationService.communicateRestTemplate(tripId);
+        return ResponseEntity.ok("??");
     }
 }

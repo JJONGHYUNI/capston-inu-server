@@ -2,8 +2,11 @@ package capston.server.plan.service;
 
 import capston.server.exception.Code;
 import capston.server.exception.CustomException;
+import capston.server.member.domain.Member;
 import capston.server.member.service.MemberService;
 import capston.server.plan.domain.Plan;
+import capston.server.plan.dto.PlanDefaultResponseDto;
+import capston.server.plan.dto.PlanGetResponseDto;
 import capston.server.plan.dto.PlanSaveRequestDto;
 import capston.server.plan.repository.PlanRepository;
 import capston.server.trip.domain.Trip;
@@ -12,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static capston.server.exception.Code.SERVER_ERROR;
 
@@ -37,5 +43,40 @@ public class PlanService {
         memberService.findMember(token);
         Trip trip = tripService.findTripById(tripId);
         return save(dto.toEntity(trip));
+    }
+
+    public List<PlanGetResponseDto> findPlan(Long tripId,String token){
+        Member member = memberService.findMember(token);
+        Trip trip = tripService.findTripById(tripId);
+        List<PlanGetResponseDto> result = new ArrayList<>();
+        List<Plan> plans = planRepository.findAllByTripOrderByDayAsc(trip);
+        Map<Integer,List<Plan>> planList = findPlanByDay(plans);
+        for(Map.Entry<Integer,List<Plan>> entry: planList.entrySet() ){
+            List<Plan> plan = entry.getValue();
+            List<PlanDefaultResponseDto> planDefaultResponseDtos = plan.stream().map(plan1 -> new PlanDefaultResponseDto(plan1)).collect(Collectors.toList());
+            PlanGetResponseDto planGetResponseDto = new PlanGetResponseDto(entry.getKey(), planDefaultResponseDtos);
+            log.info("{}",entry.getValue().toString());
+            result.add(planGetResponseDto);
+        }
+        return result;
+    }
+
+    public Map<Integer,List<Plan>> findPlanByDay(List<Plan> plans){
+        Map<Integer,List<Plan>> dividedList = new LinkedHashMap<>();
+        int idx = plans.get(0).getDay();
+        log.info("{}",plans.get(0).getDay());
+        log.info("{}",plans.get(1).getDay());
+        List<Plan> newList = new ArrayList<>();
+        for(Plan plan : plans){
+            if (idx==plan.getDay()){
+                newList.add(plan);
+            }else{
+                dividedList.put(idx,newList);
+                idx=plan.getDay();
+                newList = new ArrayList<>();
+            }
+        }
+        dividedList.put(idx,newList);
+        return dividedList;
     }
 }

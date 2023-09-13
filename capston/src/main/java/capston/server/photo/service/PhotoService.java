@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static capston.server.exception.Code.*;
 
@@ -105,5 +106,12 @@ public class PhotoService {
             savedPhotos.add(savedPhoto);
         }
         return savedPhotos;
+    }
+
+    public List<String> findPhotoByTripId(Long tripId){
+        List<String> photoUrls = new ArrayList<>();
+        List<Photo> photos = photoRepository.findAllByTripId(tripId);
+        photoUrls = photos.stream().map(photo -> photo.getPhotoUrl()).collect(Collectors.toList());
+        return photoUrls;
     }
 }

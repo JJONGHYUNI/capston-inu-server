@@ -41,7 +41,7 @@ public class TripService {
             throw new CustomException(e, SERVER_ERROR);
         }
     }
-    @Transactional
+
     public Trip findTripById(Long id){
         try{
             return tripRepository.findById(id).get();
@@ -53,11 +53,6 @@ public class TripService {
     public Trip saveTrip(TripSaveRequestDto dto, String token){
         Trip trip = tripRepository.findById(dto.getTripId()).orElseThrow(()-> new CustomException(null,TRIP_NOT_FOUND));
         Member member = memberService.findMember(token);
-        try{
-            trip.updateMainPhoto(dto.getMainPhoto());
-        }catch (RuntimeException e){
-            throw new CustomException(null,SERVER_ERROR);
-        }
         if(dto.getFiles().size()!=0){
             photoService.savePhoto(trip,dto.getFiles());
         }
@@ -113,5 +108,9 @@ public class TripService {
         List<Trip> trips = tripMembers.stream().map(tripMember -> tripMember.getTrip()).collect(Collectors.toList());
         List<TripDefaultResponseDto> result =trips.stream().map(trip -> new TripDefaultResponseDto(trip)).collect(Collectors.toList());
         return result;
+    }
+
+    public boolean memberByJoinTrip(Member member , Trip trip){
+        return tripMemberRepository.findByTripAndMember(trip,member).isPresent();
     }
 }
