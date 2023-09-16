@@ -1,17 +1,16 @@
 package capston.server.member.controller;
 
-import capston.server.exception.Code;
 import capston.server.exception.CustomException;
 import capston.server.exception.ExceptionResponseDto;
 import capston.server.member.domain.ProviderType;
 import capston.server.member.dto.MemberLoginResponseDto;
 import capston.server.member.dto.RememberedLoginRequestDto;
 import capston.server.member.service.MemberService;
+import capston.server.member.service.MemberServiceImpl;
 import capston.server.oauth2.AccessToken;
 import capston.server.oauth2.jwt.Token;
 import capston.server.oauth2.jwt.dto.TokenResponeDto;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;

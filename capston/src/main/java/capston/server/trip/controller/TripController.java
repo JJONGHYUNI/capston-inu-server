@@ -7,15 +7,14 @@ import capston.server.trip.dto.TripDefaultResponseDto;
 import capston.server.trip.dto.TripNewSaveRequestDto;
 import capston.server.trip.dto.TripSaveRequestDto;
 import capston.server.trip.service.TripService;
+
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
