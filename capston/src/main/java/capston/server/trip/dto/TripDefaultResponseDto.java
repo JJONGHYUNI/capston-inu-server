@@ -32,8 +32,6 @@ public class TripDefaultResponseDto {
         this.arrivalDate=trip.getArrivalDate();
         this.latitude=trip.getLatitude();
         this.longitude=trip.getLongitude();
-        if(trip.getMainPhoto()!=null) {
-            this.mainPhoto = trip.getMainPhoto().getPhotoUrl();
-        }
+        this.mainPhoto=trip.getMainPhoto();
     }
 }

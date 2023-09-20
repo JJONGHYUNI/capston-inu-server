@@ -30,8 +30,7 @@ public class Trip {
 
     private LocalDate departureDate;
     private LocalDate arrivalDate;
-
-    private int mainPhotoIdx;
+    private String mainPhoto;
 
     @Column(name = "latitude", precision = 13, scale = 10)
     private BigDecimal latitude;
@@ -53,13 +52,5 @@ public class Trip {
     public void updateLocation(String Location){
         this.location=location;
     }
-    public void updateMainPhoto(int idx){this.mainPhotoIdx=idx;}
-
-    public Photo getMainPhoto(){
-        int photoSize = this.getPhotos().size();
-        if(photoSize==0){
-            return null;
-        }
-        return this.getPhotos().get(this.mainPhotoIdx-1);
-    }
+    public void updateMainPhoto(String url){this.mainPhoto=url;}
 }

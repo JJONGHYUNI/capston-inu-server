@@ -33,6 +33,7 @@ public class TripNewSaveRequestDto {
                 .arrivalDate(arrivalDate)
                 .latitude(latitude)
                 .longitude(longitude)
+                .mainPhoto("x")
                 .build();
     }
 }

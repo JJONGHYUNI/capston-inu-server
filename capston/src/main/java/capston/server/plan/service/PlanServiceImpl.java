@@ -39,15 +39,13 @@ public class PlanServiceImpl implements PlanService {
         }
     }
     @Override
-    public Plan newSave(Long tripId,PlanSaveRequestDto dto, String token){
-        memberService.findMember(token);
+    public Plan newSave(Long tripId,PlanSaveRequestDto dto, Member member){
         Trip trip = tripService.findTripById(tripId);
         return save(dto.toEntity(trip));
     }
 
     @Override
-    public List<PlanGetResponseDto> findPlan(Long tripId,String token){
-        Member member = memberService.findMember(token);
+    public List<PlanGetResponseDto> findPlan(Long tripId,Member member){
         Trip trip = tripService.findTripById(tripId);
         List<PlanGetResponseDto> result = new ArrayList<>();
         List<Plan> plans = planRepository.findAllByTripOrderByDayAsc(trip);

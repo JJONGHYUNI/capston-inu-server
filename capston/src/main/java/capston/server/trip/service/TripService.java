@@ -12,12 +12,13 @@ import java.util.List;
 public interface TripService {
     Trip save(Trip trip);
     Trip findTripById(Long id);
-    Trip saveTrip(TripSaveRequestDto dto, String token);
-    Trip newSaveTrip(TripNewSaveRequestDto dto, String token);
+    Trip saveTrip(TripSaveRequestDto dto, Member member);
+    Trip newSaveTrip(TripNewSaveRequestDto dto, Member member);
     TripMember saveTripMember(Trip trip , Member member);
-    int issueCode(Long id);
+    int issueCode(Long id,Member member);
     Trip joinTrip(int code,String token);
-    List<TripDefaultResponseDto> findAllTrip(String token);
-    boolean memberByJoinTrip(Member member , Trip trip);
+    List<Trip> findAllTrip(Member member);
+
+
 
 }

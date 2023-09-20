@@ -12,7 +12,6 @@ public enum Code {
     /**
      *  400 BAD_REQUEST
      */
-    BOARD_NOT_FOUND(BAD_REQUEST, "게시글을 찾을 수 없습니다."),
     ACCESS_DENIED(BAD_REQUEST, "권한이 없습니다."),
 
     /**
@@ -35,10 +34,6 @@ public enum Code {
     TOKEN_NOT_FOUND(NOT_FOUND, "토큰이 존재하지 않습니다."),
     FILE_NOT_FOUND(NOT_FOUND, "등록된 파일이 없습니다."),
     MEMBER_NOT_FOUND(NOT_FOUND, "등록된 멤버가 없습니다."),
-    BRAND_NOT_FOUND(NOT_FOUND, "등록된 브랜드가 없습니다."),
-    PERFUME_NOT_FOUND(NOT_FOUND, "등록된 향수가 없습니다."),
-    COMMENT_NOT_FOUND(NOT_FOUND, "등록된 댓글이 없습니다."),
-    HEART_NOT_FOUND(NOT_FOUND, "등록된 하트가 없습니다."),
     TRIP_NOT_FOUND(NOT_FOUND, "등록된 여행이 없습니다."),
     TRIP_CODE_NOT_FOUND(NOT_FOUND,"코드에 일치하는 여행을 찾을 수 없습니다."),
 

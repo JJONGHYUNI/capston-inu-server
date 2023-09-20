@@ -2,7 +2,10 @@ package capston.server.trip.service;
 
 import capston.server.exception.CustomException;
 import capston.server.member.domain.Member;
+import capston.server.member.service.MemberService;
 import capston.server.member.service.MemberServiceImpl;
+import capston.server.photo.service.FlaskCommunicationService;
+import capston.server.photo.service.PhotoService;
 import capston.server.photo.service.PhotoServiceImpl;
 import capston.server.trip.domain.Trip;
 import capston.server.trip.domain.TripMember;
@@ -27,9 +30,10 @@ import static capston.server.exception.Code.*;
 @Slf4j
 public class TripServiceImpl implements TripService{
     private final TripRepository tripRepository;
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
     private final TripMemberRepository tripMemberRepository;
-    private final PhotoServiceImpl photoService;
+    private final PhotoService photoService;
+    private final FlaskCommunicationService flaskCommunicationService;
 
     @Transactional
     @Override
@@ -50,19 +54,19 @@ public class TripServiceImpl implements TripService{
     }
     @Transactional
     @Override
-    public Trip saveTrip(TripSaveRequestDto dto, String token){
+    public Trip saveTrip(TripSaveRequestDto dto, Member member){
         Trip trip = tripRepository.findById(dto.getTripId()).orElseThrow(()-> new CustomException(null,TRIP_NOT_FOUND));
-        Member member = memberService.findMember(token);
         if(dto.getFiles().size()!=0){
             photoService.savePhoto(trip,dto.getFiles());
+            String mainPhoto = flaskCommunicationService.communicateRestTemplate(dto.getTripId());
+            trip.updateMainPhoto(mainPhoto);
         }
         return trip;
     }
     @Transactional
     @Override
-    public Trip newSaveTrip(TripNewSaveRequestDto dto,String token){
+    public Trip newSaveTrip(TripNewSaveRequestDto dto,Member member){
         Trip trip = save(dto.toEntity());
-        Member member = memberService.findMember(token);
         saveTripMember(trip,member);
         return trip;
     }
@@ -89,8 +93,11 @@ public class TripServiceImpl implements TripService{
      */
     @Transactional
     @Override
-    public int issueCode(Long id){
+    public int issueCode(Long id,Member member){
         Trip trip = tripRepository.findById(id).orElseThrow(()->new CustomException(null,TRIP_NOT_FOUND));
+        if(!memberByJoinTrip(member,trip)){
+            throw new CustomException(null,FORBIDDEN_AUTHORIZATION);
+        }
         return trip.updateCode();
     }
 
@@ -105,18 +112,16 @@ public class TripServiceImpl implements TripService{
         saveTripMember(trip,member);
         return trip;
     }
-    @Transactional
     @Override
-    public List<TripDefaultResponseDto> findAllTrip(String token){
-        Member member = memberService.findMember(token);
+    public List<Trip> findAllTrip(Member member){
         List<TripMember> tripMembers= tripMemberRepository.findByMemberId(member.getId());
         List<Trip> trips = tripMembers.stream().map(tripMember -> tripMember.getTrip()).collect(Collectors.toList());
-        List<TripDefaultResponseDto> result =trips.stream().map(trip -> new TripDefaultResponseDto(trip)).collect(Collectors.toList());
-        return result;
+        return trips;
     }
 
-    @Override
     public boolean memberByJoinTrip(Member member , Trip trip){
-        return tripMemberRepository.findByTripAndMember(trip,member).isPresent();
+        if(tripMemberRepository.findByTripAndMember(trip,member).isPresent()){
+            return true;
+        }else throw new CustomException(null,FORBIDDEN_AUTHORIZATION);
     }
 }
