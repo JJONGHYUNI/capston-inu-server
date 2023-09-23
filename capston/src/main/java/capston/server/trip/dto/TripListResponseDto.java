@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 public class TripListResponseDto {
+    private Long tripId;
     private String title;
     private String arrivalDate;
     private String departureDate;
     private String mainImgUrl;
-    private Long tripId;
 
     public TripListResponseDto(Trip trip){
         this.title=trip.getTitle();

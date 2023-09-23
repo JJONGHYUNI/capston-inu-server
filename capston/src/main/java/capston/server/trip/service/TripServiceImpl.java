@@ -16,6 +16,7 @@ import capston.server.trip.repository.TripMemberRepository;
 import capston.server.trip.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,8 @@ import static capston.server.exception.Code.*;
 @RequiredArgsConstructor
 @Slf4j
 public class TripServiceImpl implements TripService{
+    @Value("${default.image.url}")
+    private String mainImgUrl;
     private final TripRepository tripRepository;
     private final MemberService memberService;
     private final TripMemberRepository tripMemberRepository;
@@ -66,7 +69,7 @@ public class TripServiceImpl implements TripService{
     @Transactional
     @Override
     public Trip newSaveTrip(TripNewSaveRequestDto dto,Member member){
-        Trip trip = save(dto.toEntity());
+        Trip trip = save(dto.toEntity(mainImgUrl));
         saveTripMember(trip,member);
         return trip;
     }

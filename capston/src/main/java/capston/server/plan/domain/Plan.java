@@ -27,7 +27,6 @@ public class Plan {
 
     private Time startTime;
 
-    private Time endTime;
     private String activity;
 
     @ManyToOne(fetch = FetchType.LAZY)

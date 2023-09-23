@@ -16,15 +16,12 @@ public class PlanSaveRequestDto {
     @Schema(example = "12:34")
     private String startTime;
 
-    @Schema(example = "12:34")
-    private String endTime;
     private String activity;
 
     public Plan toEntity(Trip trip){
         return Plan.builder()
                 .day(day)
                 .startTime(timeFormat(startTime))
-                .endTime(timeFormat(endTime))
                 .activity(activity)
                 .trip(trip)
                 .build();

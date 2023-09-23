@@ -25,7 +25,7 @@ public class TripNewSaveRequestDto {
     @Schema(example = "123.4567891234")
     private BigDecimal longitude;
 
-    public Trip toEntity(){
+    public Trip toEntity(String mainPhotoUrl){
         return Trip.builder()
                 .title(title)
                 .location(location)
@@ -33,7 +33,7 @@ public class TripNewSaveRequestDto {
                 .arrivalDate(arrivalDate)
                 .latitude(latitude)
                 .longitude(longitude)
-                .mainPhoto("x")
+                .mainPhoto(mainPhotoUrl)
                 .build();
     }
 }

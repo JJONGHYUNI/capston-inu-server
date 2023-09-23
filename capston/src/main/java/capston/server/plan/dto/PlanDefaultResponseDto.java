@@ -1,5 +1,6 @@
 package capston.server.plan.dto;
 
+import capston.server.common.DateUtils;
 import capston.server.plan.domain.Plan;
 import lombok.Data;
 
@@ -12,16 +13,10 @@ import java.time.format.DateTimeFormatter;
 public class PlanDefaultResponseDto {
 
     private String startTime;
-    private String endTime;
     private String activity;
 
     public PlanDefaultResponseDto(Plan plan){
-        this.startTime=timeFormmat(plan.getStartTime());
-        this.endTime=timeFormmat(plan.getEndTime());
+        this.startTime= DateUtils.formatHourMinute(plan.getStartTime());
         this.activity=plan.getActivity();
-    }
-    private String timeFormmat(Time time){
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-        return formatter.format(time);
     }
 }
