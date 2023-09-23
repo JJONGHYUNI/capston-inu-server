@@ -54,7 +54,6 @@ public class PlanServiceImpl implements PlanService {
             List<Plan> plan = entry.getValue();
             List<PlanDefaultResponseDto> planDefaultResponseDtos = plan.stream().map(plan1 -> new PlanDefaultResponseDto(plan1)).collect(Collectors.toList());
             PlanGetResponseDto planGetResponseDto = new PlanGetResponseDto(entry.getKey(), planDefaultResponseDtos);
-            log.info("{}",entry.getValue().toString());
             result.add(planGetResponseDto);
         }
         return result;
