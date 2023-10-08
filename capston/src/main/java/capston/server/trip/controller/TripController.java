@@ -69,7 +69,7 @@ public class TripController {
     @GetMapping("/all")
     public ResponseEntity<List<TripDefaultResponseDto>> findAllTrip(@RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
-        List<TripDefaultResponseDto> result = tripService.findAllTrip(member).stream().map(trip -> new TripDefaultResponseDto(trip)).collect(Collectors.toList());
+        List<TripDefaultResponseDto> result = tripService.findAllTripByCompleted(member).stream().map(trip -> new TripDefaultResponseDto(trip)).collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }
 
@@ -77,7 +77,7 @@ public class TripController {
     @GetMapping("/list")
     public ResponseEntity<List<TripListResponseDto>> findTripList(@RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
-        List<TripListResponseDto> result = tripService.findAllTripByCompleted(member).stream().map(trip -> new TripListResponseDto(trip)).collect(Collectors.toList());
+        List<TripListResponseDto> result = tripService.findAllTrip(member).stream().map(trip -> new TripListResponseDto(trip)).collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }
 }
