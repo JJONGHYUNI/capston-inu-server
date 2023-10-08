@@ -90,6 +90,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = Member.builder()
                 .email(profile.getEmail())
                 .providerType(provider)
+                .name(profile.getName())
                 .role(Role.GUEST)
                 .build();
         member = save(member);

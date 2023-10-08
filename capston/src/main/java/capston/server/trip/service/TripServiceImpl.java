@@ -33,7 +33,6 @@ public class TripServiceImpl implements TripService{
     @Value("${default.image.url}")
     private String mainImgUrl;
     private final TripRepository tripRepository;
-    private final MemberService memberService;
     private final TripMemberRepository tripMemberRepository;
     private final PhotoService photoService;
     private final FlaskCommunicationService flaskCommunicationService;
@@ -64,6 +63,7 @@ public class TripServiceImpl implements TripService{
             String mainPhoto = flaskCommunicationService.communicateRestTemplate(dto.getTripId());
             trip.updateMainPhoto(mainPhoto);
         }
+        trip.setCompleted();
         return trip;
     }
     @Transactional
@@ -109,8 +109,7 @@ public class TripServiceImpl implements TripService{
      */
     @Transactional
     @Override
-    public Trip joinTrip(int code,String token){
-        Member member = memberService.findMember(token);
+    public Trip joinTrip(int code,Member member){
         Trip trip = tripRepository.findByCode(code).orElseThrow(()->new CustomException(null,TRIP_CODE_NOT_FOUND));
         saveTripMember(trip,member);
         return trip;
@@ -118,7 +117,20 @@ public class TripServiceImpl implements TripService{
     @Override
     public List<Trip> findAllTrip(Member member){
         List<TripMember> tripMembers= tripMemberRepository.findByMemberId(member.getId());
-        List<Trip> trips = tripMembers.stream().map(tripMember -> tripMember.getTrip()).collect(Collectors.toList());
+        List<Trip> trips = tripMembers.stream()
+                .filter(tripMember -> !tripMember.getTrip().isCompleted())
+                .map(TripMember::getTrip)
+                .collect(Collectors.toList());
+        return trips;
+    }
+
+    @Override
+    public List<Trip> findAllTripByCompleted(Member member) {
+        List<TripMember> tripMembers= tripMemberRepository.findByMemberId(member.getId());
+        List<Trip> trips = tripMembers.stream()
+                .filter(tripMember -> tripMember.getTrip().isCompleted())
+                .map(TripMember::getTrip)
+                .collect(Collectors.toList());
         return trips;
     }
 

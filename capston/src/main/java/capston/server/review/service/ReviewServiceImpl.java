@@ -19,12 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
-    private final MemberServiceImpl memberService;
     private final TripServiceImpl tripService;
 
     @Override
-    public Review save(Long tripId,String token, ReviewSaveRequestDto dto){
-        Member member = memberService.findMember(token);
+    public Review save(Long tripId, Member member, ReviewSaveRequestDto dto){
         Trip trip = tripService.findTripById(tripId);
         return reviewRepository.save(dto.toEntity(member,trip));
     }

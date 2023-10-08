@@ -32,6 +32,8 @@ public class Trip {
     private LocalDate arrivalDate;
     private String mainPhoto;
 
+    private boolean completed = false;
+
     @Column(name = "latitude", precision = 13, scale = 10)
     private BigDecimal latitude;
     @Column(name = "longitude", precision = 13, scale = 10)
@@ -53,4 +55,8 @@ public class Trip {
         this.location=location;
     }
     public void updateMainPhoto(String url){this.mainPhoto=url;}
+
+    public void setCompleted(){
+        this.completed = true;
+    }
 }

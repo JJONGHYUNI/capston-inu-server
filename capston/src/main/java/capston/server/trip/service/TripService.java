@@ -16,8 +16,10 @@ public interface TripService {
     Trip newSaveTrip(TripNewSaveRequestDto dto, Member member);
     TripMember saveTripMember(Trip trip , Member member);
     int issueCode(Long id,Member member);
-    Trip joinTrip(int code,String token);
+    Trip joinTrip(int code,Member member);
     List<Trip> findAllTrip(Member member);
+
+    List<Trip> findAllTripByCompleted(Member member);
 
 
 

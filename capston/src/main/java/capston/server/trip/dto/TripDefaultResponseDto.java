@@ -1,12 +1,10 @@
 package capston.server.trip.dto;
 
-import capston.server.photo.domain.Photo;
 import capston.server.trip.domain.Trip;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
