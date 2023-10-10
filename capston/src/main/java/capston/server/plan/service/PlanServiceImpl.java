@@ -4,6 +4,7 @@ import capston.server.exception.CustomException;
 import capston.server.member.domain.Member;
 import capston.server.member.service.MemberService;
 import capston.server.plan.domain.Plan;
+import capston.server.plan.dto.PlanAllSaveRequestDto;
 import capston.server.plan.dto.PlanDefaultResponseDto;
 import capston.server.plan.dto.PlanGetResponseDto;
 import capston.server.plan.dto.PlanSaveRequestDto;
@@ -26,9 +27,6 @@ import static capston.server.exception.Code.SERVER_ERROR;
 @Slf4j
 public class PlanServiceImpl implements PlanService {
     private final PlanRepository planRepository;
-    private final MemberService memberService;
-
-    private final TripServiceImpl tripService;
 
     @Override
     public Plan save(Plan plan){
@@ -39,14 +37,22 @@ public class PlanServiceImpl implements PlanService {
         }
     }
     @Override
-    public Plan newSave(Long tripId,PlanSaveRequestDto dto, Member member){
-        Trip trip = tripService.findTripById(tripId);
-        return save(dto.toEntity(trip));
+    public Plan newSave(Trip trip,PlanSaveRequestDto dto, Member member){
+        return save(dto.toEntity(trip, 1));
     }
 
     @Override
-    public List<PlanGetResponseDto> findPlan(Long tripId,Member member){
-        Trip trip = tripService.findTripById(tripId);
+    public String planAllSave(Trip trip, List<PlanAllSaveRequestDto> dtos, Member member) {
+        dtos.forEach(dto -> dto.getPlans().forEach(
+                planSaveRequestDto -> {
+                    save(planSaveRequestDto.toEntity(trip, dto.getDay()));
+                }
+        ));
+        return "성공";
+    }
+
+    @Override
+    public List<PlanGetResponseDto> findPlan(Trip trip,Member member){
         List<PlanGetResponseDto> result = new ArrayList<>();
         List<Plan> plans = planRepository.findAllByTripOrderByDayAsc(trip);
         Map<Integer,List<Plan>> planList = findPlanByDay(plans);

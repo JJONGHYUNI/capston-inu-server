@@ -1,6 +1,7 @@
 package capston.server.common;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,5 +15,13 @@ public class DateUtils {
     public static String formatHourMinute(Time time){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         return formatter.format(time);
+    }
+
+    public static Time formatStringToTime(String time) {
+        String[] parts=time.split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
+        String timeString = String.format("%02d:%02d:00",hour,minute);
+        return Time.valueOf(timeString);
     }
 }

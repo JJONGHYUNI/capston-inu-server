@@ -29,7 +29,7 @@ public class TripController {
     private final TripService tripService;
     private final MemberService memberService;
 
-    @Operation(summary = "여행 종료시 사진과 함께저장",description = "여행 종료시 사진과 함께 업로드 요청")
+    @Operation(summary = "여행 종료시 사진과 함께저장",description = "여행 완료시 사진과 함께 업로드 요청")
     @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
@@ -52,7 +52,7 @@ public class TripController {
         return ResponseEntity.ok(new TripDefaultResponseDto(trip));
     }
 
-    @Operation(summary = "여행 일정 짤때 저장",description = "여행 일정 단계에서 여행 새로 저장")
+    @Operation(summary = "여행 일정 짤때 저장",description = "여행 계획 시 처음 저장 (사진 없이)")
     @PostMapping("/new")
     public ResponseEntity<DefaultResponseDto> newTrip(@RequestBody TripNewSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
@@ -72,7 +72,7 @@ public class TripController {
         return ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "여행 전체 조회",description = "내가 참여한 여행 모두 불러오기")
+    @Operation(summary = "여행 전체 조회",description = "내가 참여한 여행 모두 불러오기 (시작 화면 이미 완료된 여행만) ")
     @GetMapping("/all")
     public ResponseEntity<List<TripDefaultResponseDto>> findAllTrip(@RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
@@ -80,7 +80,7 @@ public class TripController {
         return ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "여행 목록 조회",description = "여행 목록 조회하기")
+    @Operation(summary = "여행 목록 조회",description = "여행 목록 조회하기 (계획 중인 여행)")
     @GetMapping("/list")
     public ResponseEntity<List<TripListResponseDto>> findTripList(@RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
