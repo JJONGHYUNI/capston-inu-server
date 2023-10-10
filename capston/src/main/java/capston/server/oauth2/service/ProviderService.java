@@ -56,7 +56,7 @@ public class ProviderService {
         return googleUrl;
     }
 
-    private  OAuth2UserDto extractProfile(ResponseEntity<String> response, ProviderType providerType){
+    private OAuth2UserDto extractProfile(ResponseEntity<String> response, ProviderType providerType){
         if(providerType.equals(ProviderType.GOOGLE)){
             GoogleOAuth2UserInfo googleOAuth2UserInfo = gson.fromJson(response.getBody(), GoogleOAuth2UserInfo.class);
             log.info(response.getBody());

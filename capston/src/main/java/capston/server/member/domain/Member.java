@@ -1,6 +1,7 @@
 package capston.server.member.domain;
 
 import capston.server.common.BaseEntity;
+import capston.server.photo.domain.MemberPhoto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,8 +36,19 @@ public class Member extends BaseEntity implements UserDetails {
 
     private String refreshToken;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MemberPhoto> memberPhotos = new ArrayList<>();
+
     public void updateRefreshToken(String refreshToken){
         this.refreshToken=refreshToken;
+    }
+
+    public MemberPhoto getMemberPhoto(){
+        int size = this.memberPhotos.size();
+        if(size == 0){
+            return null;
+        }
+        return this.memberPhotos.get(size-1);
     }
 
     @Override

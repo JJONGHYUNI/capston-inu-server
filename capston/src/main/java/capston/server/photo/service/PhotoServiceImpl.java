@@ -1,7 +1,10 @@
 package capston.server.photo.service;
 
 import capston.server.exception.CustomException;
+import capston.server.member.domain.Member;
+import capston.server.photo.domain.MemberPhoto;
 import capston.server.photo.domain.Photo;
+import capston.server.photo.repository.MemberPhotoRepository;
 import capston.server.photo.repository.PhotoRepository;
 import capston.server.trip.domain.Trip;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -32,6 +35,7 @@ import static capston.server.exception.Code.*;
 public class PhotoServiceImpl implements PhotoService{
     private final AmazonS3Client amazonS3Client;
     private final PhotoRepository photoRepository;
+    private final MemberPhotoRepository memberPhotoRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     /**
@@ -88,6 +92,15 @@ public class PhotoServiceImpl implements PhotoService{
 
     @Transactional
     @Override
+    public MemberPhoto save(MemberPhoto memberPhoto){
+        try{
+            return memberPhotoRepository.save(memberPhoto);
+        }catch (RuntimeException e){
+            throw new CustomException(e, SERVER_ERROR);
+        }
+    }
+    @Transactional
+    @Override
     public List<Photo> savePhoto(Trip trip, List<MultipartFile> files){
         String folderName = trip.getTitle() + "/" + trip.getId();
         List<Photo> savedPhotos = new ArrayList<>();
@@ -110,6 +123,23 @@ public class PhotoServiceImpl implements PhotoService{
         }
         return savedPhotos;
     }
+
+    @Override
+    public MemberPhoto savePhoto(Member member, MultipartFile file) {
+        String folderName = member.getName() + "/" + member.getId();
+        validateFileType(file);
+        String fileName = UUID.randomUUID() + file.getContentType().replace("image/", ".");
+        String url = insertFile(bucketName, folderName, fileName, file);
+        try{
+            return save(MemberPhoto.builder()
+                    .member(member)
+                    .photoUrl(url)
+                    .build());
+        }catch (RuntimeException e){
+            throw new CustomException(e, SERVER_ERROR);
+        }
+    }
+
     @Override
     public List<String> findPhotoByTripId(Long tripId){
         List<String> photoUrls = new ArrayList<>();

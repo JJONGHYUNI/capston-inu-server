@@ -12,8 +12,11 @@ import capston.server.oauth2.jwt.Token;
 import capston.server.oauth2.jwt.service.JwtService;
 import capston.server.oauth2.service.ProviderService;
 import capston.server.oauth2.userinfo.OAuth2UserDto;
+import capston.server.photo.domain.MemberPhoto;
+import capston.server.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +29,16 @@ import static capston.server.exception.Code.*;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+    @Value("${spring.default.profile-img}")
+    private String defaultProfile;
 
     private final MemberRepository memberRepository;
 
     private final JwtService jwtService;
 
     private final ProviderService providerService;
+
+    private final PhotoService photoService;
 
     @Transactional
     @Override
@@ -94,6 +101,10 @@ public class MemberServiceImpl implements MemberService {
                 .role(Role.GUEST)
                 .build();
         member = save(member);
+        photoService.save(MemberPhoto.builder()
+                .member(member)
+                .photoUrl(defaultProfile)
+                .build());
         Token token = jwtService.sendAccessAndRefreshToken(member);
         return token;
     }
