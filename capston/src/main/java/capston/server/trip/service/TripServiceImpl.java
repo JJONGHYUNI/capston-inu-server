@@ -134,6 +134,12 @@ public class TripServiceImpl implements TripService{
         return trips;
     }
 
+    @Override
+    public List<TripMember> findTripMembers(Trip trip) {
+        return tripMemberRepository.findAllByTripId(trip.getId());
+
+    }
+
     public boolean memberByJoinTrip(Member member , Trip trip){
         if(tripMemberRepository.findByTripAndMember(trip,member).isPresent()){
             return true;

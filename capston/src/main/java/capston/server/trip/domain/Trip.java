@@ -1,6 +1,7 @@
 package capston.server.trip.domain;
 
 import capston.server.photo.domain.Photo;
+import capston.server.review.domain.Review;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,9 @@ public class Trip {
 
     @OneToMany(mappedBy = "trip")
     private List<Photo> photos= new ArrayList<>();
+
+    @OneToMany(mappedBy = "trip")
+    private List<Review> reviews = new ArrayList<>();
 
     public int updateCode(){
         int code = new Random().nextInt(9000)+1000;

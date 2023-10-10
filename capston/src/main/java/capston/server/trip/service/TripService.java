@@ -21,6 +21,6 @@ public interface TripService {
 
     List<Trip> findAllTripByCompleted(Member member);
 
-
+    List<TripMember> findTripMembers(Trip trip);
 
 }

@@ -2,7 +2,9 @@ package capston.server.trip.controller;
 
 import capston.server.common.DefaultResponseDto;
 import capston.server.member.domain.Member;
+import capston.server.member.dto.MemberNameResponseDto;
 import capston.server.member.service.MemberService;
+import capston.server.review.dto.ReviewDefaultResponseDto;
 import capston.server.trip.domain.Trip;
 import capston.server.trip.dto.*;
 import capston.server.trip.service.TripService;
@@ -58,11 +60,16 @@ public class TripController {
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
     }
 
-    @Operation(summary = "여행 단건 조회",description = "여행 하나 조회")
+    @Operation(summary = "여행 단건 조회",description = "여행 하나 조회 , trip -> 여행 정보 , review -> 리뷰 정보 , participants -> 참여자 정보")
     @GetMapping("/{tripId}")
-    public ResponseEntity<TripDefaultResponseDto> findOneTrip(@PathVariable Long tripId,@RequestHeader("X-AUTH-TOKEN") String token){
+    public ResponseEntity<TripDetailResponseDto> findOneTrip(@PathVariable Long tripId,@RequestHeader("X-AUTH-TOKEN") String token){
         Trip trip = tripService.findTripById(tripId);
-        return ResponseEntity.ok(new TripDefaultResponseDto(trip));
+        TripDefaultResponseDto tripDto = new TripDefaultResponseDto(trip);
+        List<ReviewDefaultResponseDto> reviewDto = trip.getReviews().stream().map(ReviewDefaultResponseDto::new).collect(Collectors.toList());
+        List<MemberNameResponseDto> participantDto = tripService.findTripMembers(trip).stream().map(tripMember -> new MemberNameResponseDto(tripMember.getMember())).collect(Collectors.toList());
+        TripDetailResponseDto result = new TripDetailResponseDto(tripDto, participantDto, reviewDto);
+
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "여행 전체 조회",description = "내가 참여한 여행 모두 불러오기")
