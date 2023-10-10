@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -86,6 +87,12 @@ public class MemberServiceImpl implements MemberService {
             token = firstLogin(profile,provider);
             return new MemberLoginResponseDto(token,false);
         }
+    }
+
+    @Override
+    public Member modifyProfileImg(Member member, MultipartFile file) {
+        photoService.savePhoto(member, file);
+        return member;
     }
 
     private Token accept(Member member) {
