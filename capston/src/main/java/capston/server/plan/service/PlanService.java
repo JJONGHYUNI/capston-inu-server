@@ -18,6 +18,5 @@ public interface PlanService {
     Plan newSave(Trip trip, PlanSaveRequestDto dto, Member member);
     String planAllSave(Trip trip, List<PlanAllSaveRequestDto> dto, Member member);
     List<PlanGetResponseDto> findPlan(Trip trip, Member member);
-    Map<LocalDateTime,List<Plan>> findPlanByDay(List<Plan> plans);
 
 }

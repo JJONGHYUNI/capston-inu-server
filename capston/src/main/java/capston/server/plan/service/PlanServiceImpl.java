@@ -71,37 +71,9 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public List<PlanGetResponseDto> findPlan(Trip trip,Member member){
-//        List<PlanGetResponseDto> result = new ArrayList<>();
-//        List<PlanDay> planDays = planDayRepository.findAllByTripOrderByDayAsc(trip);
-//        Map<LocalDateTime,List<Plan>> planList = findPlanByDay(plans);
-//        log.info("{}", planList.toString());
-//        for(Map.Entry<LocalDateTime,List<Plan>> entry: planList.entrySet() ){
-//            List<PlanDefaultResponseDto> planDefaultResponseDtos = entry.getValue().stream().map(plan -> new PlanDefaultResponseDto(plan)).collect(Collectors.toList());
-//            PlanGetResponseDto planGetResponseDto = new PlanGetResponseDto(entry.getKey(), planDefaultResponseDtos);
-//            result.add(planGetResponseDto);
-//        }
-//        return result;
-        return null;
+        List<PlanDay> planDays = planDayRepository.findAllByTripOrderByDayAsc(trip);
+        List<PlanGetResponseDto> result = planDays.stream().map(planDay -> new PlanGetResponseDto(planDay)).collect(Collectors.toList());
+        return result;
     }
 
-    @Override
-    public Map<LocalDateTime,List<Plan>> findPlanByDay(List<Plan> plans){
-//        Map<LocalDateTime,List<Plan>> dividedList = new LinkedHashMap<>();
-//        LocalDateTime idx = plans.get(0).getDay();
-//        List<Plan> newList = new ArrayList<>();
-//        for(Plan plan : plans){
-//            if (idx.isEqual(plan.getDay())){
-//
-//                newList.add(plan);
-//            }else{
-//                dividedList.put(idx,newList);
-//                idx=plan.getDay();
-//                newList = new ArrayList<>();
-//                newList.add(plan);
-//            }
-//        }
-//        dividedList.put(idx,newList);
-//        return dividedList;
-        return null;
-    }
 }
