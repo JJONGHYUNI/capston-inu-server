@@ -72,7 +72,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<PlanGetResponseDto> findPlan(Trip trip,Member member){
 //        List<PlanGetResponseDto> result = new ArrayList<>();
-//        List<Plan> plans = planRepository.findAllByTripOrderByDayAsc(trip);
+//        List<PlanDay> planDays = planDayRepository.findAllByTripOrderByDayAsc(trip);
 //        Map<LocalDateTime,List<Plan>> planList = findPlanByDay(plans);
 //        log.info("{}", planList.toString());
 //        for(Map.Entry<LocalDateTime,List<Plan>> entry: planList.entrySet() ){

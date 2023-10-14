@@ -4,6 +4,7 @@ import capston.server.common.DateUtils;
 import capston.server.trip.domain.Trip;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -11,13 +12,19 @@ import java.time.LocalDateTime;
 public class TripListResponseDto {
     private Long tripId;
     private String title;
-    private LocalDateTime arrivalDate;
-    private LocalDateTime departureDate;
+    private String location;
+    private String arrivalDate;
+    private String departureDate;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 
     public TripListResponseDto(Trip trip){
         this.title=trip.getTitle();
-        this.arrivalDate= trip.getArrivalDate();
-        this.departureDate= trip.getDepartureDate();
+        this.arrivalDate= trip.getArrivalDate() + "Z";
+        this.departureDate= trip.getDepartureDate() + "Z";
         this.tripId=trip.getId();
+        this.latitude = trip.getLatitude();
+        this.longitude = trip.getLongitude();
+        this.location = trip.getLocation();
     }
 }
