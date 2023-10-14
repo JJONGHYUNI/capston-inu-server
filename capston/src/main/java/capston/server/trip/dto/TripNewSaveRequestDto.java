@@ -16,10 +16,8 @@ import java.time.LocalDateTime;
 public class TripNewSaveRequestDto {
     private String title;
     private String location;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate departureDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate arrivalDate;
+    private LocalDateTime departureDate;
+    private LocalDateTime arrivalDate;
     @Schema(example = "123.4567891234")
     private BigDecimal latitude;
     @Schema(example = "123.4567891234")

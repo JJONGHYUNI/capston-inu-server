@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,8 +16,8 @@ public class TripDefaultResponseDto {
     private Long tripId;
     private String title;
     private String location;
-    private LocalDate departureDate;
-    private LocalDate arrivalDate;
+    private LocalDateTime departureDate;
+    private LocalDateTime arrivalDate;
     private BigDecimal latitude;
     private BigDecimal longitude;
     private String mainPhoto;

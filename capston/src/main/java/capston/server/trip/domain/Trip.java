@@ -29,8 +29,8 @@ public class Trip {
 
     private int code;
 
-    private LocalDate departureDate;
-    private LocalDate arrivalDate;
+    private LocalDateTime departureDate;
+    private LocalDateTime arrivalDate;
     private String mainPhoto;
 
     private boolean completed = false;
