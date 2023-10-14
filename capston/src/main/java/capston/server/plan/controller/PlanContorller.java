@@ -28,12 +28,12 @@ public class PlanContorller {
     private final PlanService planService;
     private final MemberService memberService;
     private final TripService tripService;
-    @Operation(summary = "여행의 일정 수정 ( 아직 사용 x )", description = "여행 일정 수정")
-    @PutMapping("/{tripId}/save")
-    public ResponseEntity<DefaultResponseDto> planSave(@PathVariable Long tripId,@RequestBody PlanSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
+    @Operation(summary = "여행의 일정 수정", description = "여행 일정 수정")
+    @PutMapping("/{tripId}/modify")
+    public ResponseEntity<DefaultResponseDto> planSave(@PathVariable Long tripId,@RequestBody List<PlanAllSaveRequestDto> dto, @RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
         Trip trip = tripService.findTripById(tripId);
-        planService.newSave(trip,dto,member);
+        planService.modifyPlan(trip,dto,member);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
     }
 

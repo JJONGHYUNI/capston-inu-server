@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "Flask 서버 통신")
+@Api(tags = "Flask 서버 통신 (테스트용)")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

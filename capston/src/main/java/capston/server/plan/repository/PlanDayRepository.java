@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PlanDayRepository extends JpaRepository<PlanDay, Long> {
     List<PlanDay> findAllByTripOrderByDayAsc(Trip trip);
+    void deleteByTrip(Trip trip);
 }

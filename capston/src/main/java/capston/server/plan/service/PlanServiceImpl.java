@@ -76,4 +76,10 @@ public class PlanServiceImpl implements PlanService {
         return result;
     }
 
+    @Override
+    public String modifyPlan(Trip trip, List<PlanAllSaveRequestDto> dto, Member member) {
+        planDayRepository.deleteByTrip(trip);
+        return planAllSave(trip, dto, member);
+    }
+
 }
