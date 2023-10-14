@@ -20,8 +20,8 @@ public class TripListResponseDto {
 
     public TripListResponseDto(Trip trip){
         this.title=trip.getTitle();
-        this.arrivalDate= trip.getArrivalDate() + "Z";
-        this.departureDate= trip.getDepartureDate() + "Z";
+        this.arrivalDate= DateUtils.formatTimeToSecond(trip.getArrivalDate());
+        this.departureDate= DateUtils.formatTimeToSecond(trip.getDepartureDate());
         this.tripId=trip.getId();
         this.latitude = trip.getLatitude();
         this.longitude = trip.getLongitude();
