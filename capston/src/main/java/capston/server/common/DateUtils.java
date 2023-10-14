@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtils {
@@ -23,5 +24,9 @@ public class DateUtils {
         int minute = Integer.parseInt(parts[1]);
         String timeString = String.format("%02d:%02d:00",hour,minute);
         return Time.valueOf(timeString);
+    }
+    public static String formatTimeToSecond(LocalDateTime time){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        return time.format(formatter) + "Z";
     }
 }
