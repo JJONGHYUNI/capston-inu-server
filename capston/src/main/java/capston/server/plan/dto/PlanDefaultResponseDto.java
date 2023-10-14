@@ -13,11 +13,11 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class PlanDefaultResponseDto {
 
-    private LocalDateTime startTime;
+    private String startTime;
     private String activity;
 
     public PlanDefaultResponseDto(Plan plan){
-        this.startTime = plan.getStartTime();
+        this.startTime = DateUtils.formatTimeToSecond(plan.getStartTime());
         this.activity=plan.getActivity();
     }
 }
