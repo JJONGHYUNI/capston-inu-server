@@ -2,6 +2,7 @@ package capston.server.plan.dto;
 
 import capston.server.common.DateUtils;
 import capston.server.plan.domain.Plan;
+import capston.server.plan.domain.PlanDay;
 import capston.server.trip.domain.Trip;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,12 +22,11 @@ public class PlanSaveRequestDto {
 
     @Schema(description = "활동" , example = "인천 공항 출발")
     private String activity;
-    public Plan toEntity(Trip trip, LocalDateTime day) {
+    public Plan toEntity(PlanDay planDay) {
         return Plan.builder()
-                .day(day)
-                .trip(trip)
                 .activity(activity)
                 .startTime(startTime)
+                .planDay(planDay)
                 .build();
     }
 }

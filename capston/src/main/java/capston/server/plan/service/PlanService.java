@@ -2,6 +2,7 @@ package capston.server.plan.service;
 
 import capston.server.member.domain.Member;
 import capston.server.plan.domain.Plan;
+import capston.server.plan.domain.PlanDay;
 import capston.server.plan.dto.PlanAllSaveRequestDto;
 import capston.server.plan.dto.PlanGetResponseDto;
 import capston.server.plan.dto.PlanSaveRequestDto;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public interface PlanService {
     Plan save(Plan plan);
+    PlanDay save(PlanDay planDay);
     Plan newSave(Trip trip, PlanSaveRequestDto dto, Member member);
     String planAllSave(Trip trip, List<PlanAllSaveRequestDto> dto, Member member);
     List<PlanGetResponseDto> findPlan(Trip trip, Member member);

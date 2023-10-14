@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 public class TripListResponseDto {
     private Long tripId;
     private String title;
-    private String arrivalDate;
-    private String departureDate;
+    private LocalDateTime arrivalDate;
+    private LocalDateTime departureDate;
 
     public TripListResponseDto(Trip trip){
         this.title=trip.getTitle();
-        this.arrivalDate= DateUtils.formatTimeToSecond(trip.getArrivalDate());
-        this.departureDate= DateUtils.formatTimeToSecond(trip.getDepartureDate());
+        this.arrivalDate= trip.getArrivalDate();
+        this.departureDate= trip.getDepartureDate();
         this.tripId=trip.getId();
     }
 }

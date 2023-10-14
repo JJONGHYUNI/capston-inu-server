@@ -23,14 +23,13 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime day;
 
     private LocalDateTime startTime;
 
     private String activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="trip_id")
-    private Trip trip;
+    @JoinColumn(name="plan_day_id")
+    private PlanDay planDay;
 
 }
