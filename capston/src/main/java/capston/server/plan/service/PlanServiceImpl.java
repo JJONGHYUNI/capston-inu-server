@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,8 @@ public class PlanServiceImpl implements PlanService {
     }
     @Override
     public Plan newSave(Trip trip,PlanSaveRequestDto dto, Member member){
-        return save(dto.toEntity(trip, 1));
+//        return save(dto.toEntity(trip, 1));
+        return null;
     }
 
     @Override
@@ -55,10 +57,10 @@ public class PlanServiceImpl implements PlanService {
     public List<PlanGetResponseDto> findPlan(Trip trip,Member member){
         List<PlanGetResponseDto> result = new ArrayList<>();
         List<Plan> plans = planRepository.findAllByTripOrderByDayAsc(trip);
-        Map<Integer,List<Plan>> planList = findPlanByDay(plans);
-        for(Map.Entry<Integer,List<Plan>> entry: planList.entrySet() ){
-            List<Plan> plan = entry.getValue();
-            List<PlanDefaultResponseDto> planDefaultResponseDtos = plan.stream().map(plan1 -> new PlanDefaultResponseDto(plan1)).collect(Collectors.toList());
+        Map<LocalDateTime,List<Plan>> planList = findPlanByDay(plans);
+        log.info("{}", planList.toString());
+        for(Map.Entry<LocalDateTime,List<Plan>> entry: planList.entrySet() ){
+            List<PlanDefaultResponseDto> planDefaultResponseDtos = entry.getValue().stream().map(plan -> new PlanDefaultResponseDto(plan)).collect(Collectors.toList());
             PlanGetResponseDto planGetResponseDto = new PlanGetResponseDto(entry.getKey(), planDefaultResponseDtos);
             result.add(planGetResponseDto);
         }
@@ -66,19 +68,19 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public Map<Integer,List<Plan>> findPlanByDay(List<Plan> plans){
-        Map<Integer,List<Plan>> dividedList = new LinkedHashMap<>();
-        int idx = plans.get(0).getDay();
-        log.info("{}",plans.get(0).getDay());
-        log.info("{}",plans.get(1).getDay());
+    public Map<LocalDateTime,List<Plan>> findPlanByDay(List<Plan> plans){
+        Map<LocalDateTime,List<Plan>> dividedList = new LinkedHashMap<>();
+        LocalDateTime idx = plans.get(0).getDay();
         List<Plan> newList = new ArrayList<>();
         for(Plan plan : plans){
-            if (idx==plan.getDay()){
+            if (idx.isEqual(plan.getDay())){
+
                 newList.add(plan);
             }else{
                 dividedList.put(idx,newList);
                 idx=plan.getDay();
                 newList = new ArrayList<>();
+                newList.add(plan);
             }
         }
         dividedList.put(idx,newList);

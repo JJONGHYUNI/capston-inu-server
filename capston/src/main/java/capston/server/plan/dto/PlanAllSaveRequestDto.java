@@ -7,13 +7,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Data
 @ApiModel(value = "계획 저장 요청 dto")
 public class PlanAllSaveRequestDto {
-    private int day;
+    private LocalDateTime day;
     private List<PlanSaveRequestDto> plans;
 
 }

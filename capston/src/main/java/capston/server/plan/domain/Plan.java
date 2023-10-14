@@ -23,9 +23,9 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int day;
+    private LocalDateTime day;
 
-    private Time startTime;
+    private LocalDateTime startTime;
 
     private String activity;
 

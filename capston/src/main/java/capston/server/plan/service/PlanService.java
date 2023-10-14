@@ -7,6 +7,7 @@ import capston.server.plan.dto.PlanGetResponseDto;
 import capston.server.plan.dto.PlanSaveRequestDto;
 import capston.server.trip.domain.Trip;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,6 @@ public interface PlanService {
     Plan newSave(Trip trip, PlanSaveRequestDto dto, Member member);
     String planAllSave(Trip trip, List<PlanAllSaveRequestDto> dto, Member member);
     List<PlanGetResponseDto> findPlan(Trip trip, Member member);
-    Map<Integer,List<Plan>> findPlanByDay(List<Plan> plans);
+    Map<LocalDateTime,List<Plan>> findPlanByDay(List<Plan> plans);
 
 }
