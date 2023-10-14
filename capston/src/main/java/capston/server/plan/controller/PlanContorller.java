@@ -42,7 +42,7 @@ public class PlanContorller {
     public ResponseEntity<DefaultResponseDto> allPlanSave(@PathVariable Long tripId, @RequestBody List<PlanAllSaveRequestDto> dto, @RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
         Trip trip = tripService.findTripById(tripId);
-        planService.planAllSave(trip,dto,member);
+        planService.modifyPlan(trip,dto,member);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());
     }
 
