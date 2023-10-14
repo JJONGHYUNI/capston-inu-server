@@ -54,10 +54,10 @@ public class TripController {
 
     @Operation(summary = "여행 일정 짤때 저장",description = "여행 계획 시 처음 저장 (사진 없이)")
     @PostMapping("/new")
-    public ResponseEntity<DefaultResponseDto> newTrip(@RequestBody TripNewSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
+    public ResponseEntity<TripListResponseDto> newTrip(@RequestBody TripNewSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
-        tripService.newSaveTrip(dto,member);
-        return ResponseEntity.ok(DefaultResponseDto.builder().build());
+        TripListResponseDto result = new TripListResponseDto(tripService.newSaveTrip(dto,member));
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "여행 단건 조회",description = "여행 하나 조회 , trip -> 여행 정보 , review -> 리뷰 정보 , participants -> 참여자 정보")
