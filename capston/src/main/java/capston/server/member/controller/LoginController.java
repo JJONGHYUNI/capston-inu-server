@@ -18,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static capston.server.exception.Code.*;
 
@@ -71,5 +74,11 @@ public class LoginController {
             return ResponseEntity.ok(responeDto);
         }
         throw new CustomException(null, TOKEN_NOT_FOUND);
+    }
+
+    @Operation(summary = "테스트", description = "리프레쉬 토큰으로 자동 로그인을 진행합니다.")
+    @PostMapping(value = "/photoSave",consumes = "multipart/form-data")
+    public void savePhoto(@RequestPart(value = "image") List<MultipartFile> files) {
+        System.out.println(files.size());
     }
 }
