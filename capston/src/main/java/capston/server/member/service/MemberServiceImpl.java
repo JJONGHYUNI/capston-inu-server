@@ -6,6 +6,7 @@ import capston.server.member.domain.Member;
 import capston.server.member.domain.ProviderType;
 import capston.server.member.domain.Role;
 import capston.server.member.dto.MemberLoginResponseDto;
+import capston.server.member.dto.MemberNicknameRequestDto;
 import capston.server.member.repository.MemberRepository;
 import capston.server.oauth2.jwt.JwtResultType;
 import capston.server.oauth2.jwt.Token;
@@ -89,9 +90,16 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Transactional
     @Override
     public Member modifyProfileImg(Member member, MultipartFile file) {
         photoService.savePhoto(member, file);
+        return member;
+    }
+    @Transactional
+    @Override
+    public Member modifyProfilleName(Member member, MemberNicknameRequestDto dto) {
+        member.modifyNickname(dto.getNickname());
         return member;
     }
 

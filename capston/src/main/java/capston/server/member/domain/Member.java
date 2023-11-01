@@ -51,6 +51,10 @@ public class Member extends BaseEntity implements UserDetails {
         return this.memberPhotos.get(size-1);
     }
 
+    public void modifyNickname(String nickname) {
+        this.name = nickname;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
