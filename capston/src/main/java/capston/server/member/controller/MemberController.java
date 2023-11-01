@@ -24,7 +24,7 @@ public class MemberController {
 
     @Operation(summary = "프로필 이미지 변경", description = "토큰과 프로필 이미지를 업로드하여 프로필 이미지를 업데이트")
     @PostMapping("/profile")
-    public ResponseEntity<DefaultResponseDto<Object>> modifyProfileImg(@RequestHeader("X-AUTH-TOKEN") String token, @RequestParam(value = "image") MultipartFile file) {
+    public ResponseEntity<DefaultResponseDto<Object>> modifyProfileImg(@RequestHeader("X-AUTH-TOKEN") String token, @RequestPart(value = "image") MultipartFile file) {
         Member member = memberService.findMember(token);
         memberService.modifyProfileImg(member, file);
         return ResponseEntity.ok(DefaultResponseDto.builder().build());

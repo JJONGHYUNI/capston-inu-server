@@ -76,7 +76,7 @@ public class TripServiceImpl implements TripService{
 
     @Transactional
     @Override
-    public TripMember saveTripMember(Trip trip , Member member){
+    public TripMember saveTripMember(Trip trip, Member member){
         if (tripMemberRepository.findByTripAndMember(trip,member).isPresent()){
             return tripMemberRepository.findByTripAndMember(trip,member).get();
         }

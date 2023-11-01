@@ -71,14 +71,15 @@ public class FlaskCommunicationServiceImpl implements FlaskCommunicationService{
     public String communicateRestTemplate(Long tripId){
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> requestEntity = new HttpEntity<>(setImageToJson(tripId),setJsonHeader());
-        log.info("여기까진 성공");
+        log.info(setImageToJson(tripId));
+        log.info("여기까진 성공1");
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(url,HttpMethod.POST,requestEntity,String.class);
-            log.info("여기까진 성공");
+            log.info("여기까진 성공2");
             HttpStatus status = responseEntity.getStatusCode();
-            log.info("여기까진 성공");
+            log.info("여기까진 성공3");
             String responseBody = responseEntity.getBody();
-            log.info("여기까진 성공");
+            log.info("여기까진 성공4");
 
             log.info("{}",status);
             log.info("{}",responseBody);

@@ -19,7 +19,6 @@ import java.util.Random;
 @Table(name = "TRIP")
 @AllArgsConstructor
 public class Trip {
-
     @Id
     @Column(name = "trip_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
