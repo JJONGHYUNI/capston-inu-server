@@ -2,6 +2,7 @@ package capston.server.trip.controller;
 
 import capston.server.common.DefaultResponseDto;
 import capston.server.member.domain.Member;
+import capston.server.member.dto.MemberGetResponseDto;
 import capston.server.member.dto.MemberNameResponseDto;
 import capston.server.member.service.MemberService;
 import capston.server.review.dto.ReviewDefaultResponseDto;
@@ -66,7 +67,7 @@ public class TripController {
         Trip trip = tripService.findTripById(tripId);
         TripDefaultResponseDto tripDto = new TripDefaultResponseDto(trip);
         List<ReviewDefaultResponseDto> reviewDto = trip.getReviews().stream().map(ReviewDefaultResponseDto::new).collect(Collectors.toList());
-        List<MemberNameResponseDto> participantDto = tripService.findTripMembers(trip).stream().map(tripMember -> new MemberNameResponseDto(tripMember.getMember())).collect(Collectors.toList());
+        List<MemberGetResponseDto> participantDto = tripService.findTripMembers(trip).stream().map(tripMember -> new MemberGetResponseDto(tripMember.getMember())).collect(Collectors.toList());
         TripDetailResponseDto result = new TripDetailResponseDto(tripDto, participantDto, reviewDto);
 
         return ResponseEntity.ok(result);
