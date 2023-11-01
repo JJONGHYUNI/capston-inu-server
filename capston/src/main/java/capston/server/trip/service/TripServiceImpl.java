@@ -58,8 +58,8 @@ public class TripServiceImpl implements TripService{
     @Override
     public Trip saveTrip(TripSaveRequestDto dto,Long tripId, Member member){
         Trip trip = tripRepository.findById(tripId).orElseThrow(()-> new CustomException(null,TRIP_NOT_FOUND));
-        if(dto.getFiles().size()!=0){
-            photoService.savePhoto(trip,dto.getFiles());
+        if(dto.getImage().size()!=0){
+            photoService.savePhoto(trip,dto.getImage());
             String mainPhoto = flaskCommunicationService.communicateRestTemplate(tripId);
             trip.updateMainPhoto(mainPhoto);
         }
