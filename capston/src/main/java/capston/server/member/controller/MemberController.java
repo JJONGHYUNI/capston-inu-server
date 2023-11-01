@@ -2,6 +2,7 @@ package capston.server.member.controller;
 
 import capston.server.common.DefaultResponseDto;
 import capston.server.member.domain.Member;
+import capston.server.member.dto.MemberGetResponseDto;
 import capston.server.member.dto.MemberNameResponseDto;
 import capston.server.member.dto.MemberNicknameRequestDto;
 import capston.server.member.service.MemberService;
@@ -35,5 +36,12 @@ public class MemberController {
         Member member = memberService.findMember(token);
         member = memberService.modifyProfilleName(member, dto);
         return ResponseEntity.ok(new MemberNameResponseDto(member));
+    }
+
+    @Operation(summary = "프로필 조회", description = "멤버 프로필 조회")
+    @GetMapping("/profile")
+    public ResponseEntity<MemberGetResponseDto> findOneMember(@RequestHeader("X-AUTH-TOKEN") String token) {
+        Member member = memberService.findMember(token);
+        return ResponseEntity.ok(new MemberGetResponseDto(member));
     }
 }
