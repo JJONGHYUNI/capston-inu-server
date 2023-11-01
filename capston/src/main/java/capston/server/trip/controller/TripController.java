@@ -30,11 +30,11 @@ public class TripController {
     private final MemberService memberService;
 
     @Operation(summary = "여행 종료시 사진과 함께저장",description = "여행 완료시 사진과 함께 업로드 요청")
-    @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DefaultResponseDto<Object>> saveTrip(@ModelAttribute TripSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
+    @PostMapping(value = "/{tripId}/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TripSaveResponseDto> saveTrip(@PathVariable Long tripId, @ModelAttribute TripSaveRequestDto dto, @RequestHeader("X-AUTH-TOKEN") String token){
         Member member = memberService.findMember(token);
-        tripService.saveTrip(dto,member);
-        return ResponseEntity.ok(DefaultResponseDto.builder().build());
+        Trip trip = tripService.saveTrip(dto, tripId, member);
+        return ResponseEntity.ok(new TripSaveResponseDto(trip));
     }
 
     @Operation(summary = "공유 코드 발급 요청" , description = "공유할 여행의 코드 발급")

@@ -82,7 +82,7 @@ public class FlaskCommunicationServiceImpl implements FlaskCommunicationService{
 
             log.info("{}",status);
             log.info("{}",responseBody);
-            return responseBody;
+            return transferImageUrl(responseBody);
         }catch (RuntimeException e){
             throw new CustomException(null,Code.SERVER_ERROR);
         }
@@ -112,6 +112,10 @@ public class FlaskCommunicationServiceImpl implements FlaskCommunicationService{
         }
         json.add("photoList",photoList);
         return json.toString();
+    }
+
+    private String transferImageUrl(String url) {
+        return url.substring(1, url.length() - 2);
     }
 
 }

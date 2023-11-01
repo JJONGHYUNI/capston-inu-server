@@ -12,7 +12,7 @@ import java.util.List;
 public interface TripService {
     Trip save(Trip trip);
     Trip findTripById(Long id);
-    Trip saveTrip(TripSaveRequestDto dto, Member member);
+    Trip saveTrip(TripSaveRequestDto dto,Long tripId, Member member);
     Trip newSaveTrip(TripNewSaveRequestDto dto, Member member);
     TripMember saveTripMember(Trip trip , Member member);
     int issueCode(Long id,Member member);
