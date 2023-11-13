@@ -28,9 +28,9 @@ public class AlbumController {
     private final PhotoService photoService;
 
     @GetMapping("/find")
-    public ResponseEntity<List<AlbumResponseDto>> findMyAlbum(@RequestHeader("X-AUTH-TOKEN") String token, @RequestParam int page) {
+    public ResponseEntity<List<AlbumResponseDto>> findMyAlbum(@RequestHeader("X-AUTH-TOKEN") String token) {
         Member member = memberService.findMember(token);
-        List<Trip> trips = tripService.findTripMembersByPage(member, page);
+        List<Trip> trips = tripService.findTripMembersByPage(member);
         List<AlbumResponseDto> dtos = trips.stream()
                 .map(trip -> new AlbumResponseDto(trip,photoService.findPhotoByTrip(trip)))
                 .collect(Collectors.toList());

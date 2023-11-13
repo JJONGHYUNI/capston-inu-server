@@ -21,5 +21,5 @@ public interface TripMemberRepository extends JpaRepository<TripMember,Long> {
     @Query(
             "SELECT tm FROM TripMember tm JOIN Trip t ON tm.trip = t WHERE t.completed = true AND tm.member = :member"
     )
-    Page<TripMember> findTripMembersWithCompletedTrips(@Param("member") Member member, Pageable pageable);
+    List<TripMember> findTripMembersWithCompletedTrips(@Param("member") Member member);
 }

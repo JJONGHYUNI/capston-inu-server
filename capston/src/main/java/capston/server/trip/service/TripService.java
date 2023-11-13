@@ -23,5 +23,5 @@ public interface TripService {
 
     List<TripMember> findTripMembers(Trip trip);
 
-    List<Trip> findTripMembersByPage(Member member, int page);
+    List<Trip> findTripMembersByPage(Member member);
 }

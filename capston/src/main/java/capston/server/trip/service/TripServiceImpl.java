@@ -143,8 +143,8 @@ public class TripServiceImpl implements TripService{
     }
 
     @Override
-    public List<Trip> findTripMembersByPage(Member member, int page) {
-        Page<TripMember> tripMembers = tripMemberRepository.findTripMembersWithCompletedTrips(member, PageRequest.of(page, 3));
+    public List<Trip> findTripMembersByPage(Member member) {
+        List<TripMember> tripMembers = tripMemberRepository.findTripMembersWithCompletedTrips(member);
         return tripMembers.stream()
                 .map(tripMember -> tripMember.getTrip())
                 .collect(Collectors.toList());
