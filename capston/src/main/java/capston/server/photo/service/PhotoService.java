@@ -17,4 +17,5 @@ public interface PhotoService {
     List<Photo> savePhoto(Trip trip, List<MultipartFile> files);
     MemberPhoto savePhoto(Member member, MultipartFile file);
     List<String> findPhotoByTripId(Long tripId);
+    List<String> findPhotoByTrip(Trip trip);
 }

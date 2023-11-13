@@ -17,6 +17,8 @@ import capston.server.trip.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,6 +140,14 @@ public class TripServiceImpl implements TripService{
     public List<TripMember> findTripMembers(Trip trip) {
         return tripMemberRepository.findAllByTripId(trip.getId());
 
+    }
+
+    @Override
+    public List<Trip> findTripMembersByPage(Member member, int page) {
+        Page<TripMember> tripMembers = tripMemberRepository.findTripMembersWithCompletedTrips(member, PageRequest.of(page, 3));
+        return tripMembers.stream()
+                .map(tripMember -> tripMember.getTrip())
+                .collect(Collectors.toList());
     }
 
     public boolean memberByJoinTrip(Member member , Trip trip){

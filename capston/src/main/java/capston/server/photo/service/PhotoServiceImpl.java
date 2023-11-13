@@ -13,6 +13,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -99,6 +101,7 @@ public class PhotoServiceImpl implements PhotoService{
             throw new CustomException(e, SERVER_ERROR);
         }
     }
+
     @Transactional
     @Override
     public List<Photo> savePhoto(Trip trip, List<MultipartFile> files){
@@ -127,6 +130,7 @@ public class PhotoServiceImpl implements PhotoService{
     @Override
     public MemberPhoto savePhoto(Member member, MultipartFile file) {
         String folderName = member.getName() + "/" + member.getId();
+        existFile(file);
         validateFileType(file);
         String fileName = UUID.randomUUID() + file.getContentType().replace("image/", ".");
         String url = insertFile(bucketName, folderName, fileName, file);
@@ -144,7 +148,15 @@ public class PhotoServiceImpl implements PhotoService{
     public List<String> findPhotoByTripId(Long tripId){
         List<String> photoUrls = new ArrayList<>();
         List<Photo> photos = photoRepository.findAllByTripId(tripId);
-        photoUrls = photos.stream().map(photo -> photo.getPhotoUrl()).collect(Collectors.toList());
+        photoUrls = photos.stream().map(Photo::getPhotoUrl).collect(Collectors.toList());
         return photoUrls;
+    }
+
+    @Override
+    public List<String> findPhotoByTrip(Trip trip) {
+        Page<Photo> photos = photoRepository.findAllByTrip(trip, PageRequest.of(0, 9));
+        return photos.stream()
+                .map(Photo::getPhotoUrl)
+                .collect(Collectors.toList());
     }
 }
